@@ -29,6 +29,7 @@ LIB_DGSDK_PATH = (
     else os.path.join(WORKSPACE_DIR, "sdk_tools", "DGSDK", "libDGSDK.so")
 )
 
+
 class GripperSystemSetting(ctypes.Structure):
     _pack_ = 1
     _fields_ = [
@@ -41,6 +42,7 @@ class GripperSystemSetting(ctypes.Structure):
         ('slaveID', ctypes.c_int),
         ('baudrate', ctypes.c_int),
     ]
+
 
 class GripperSetting(ctypes.Structure):
     _pack_ = 1
@@ -56,6 +58,7 @@ class GripperSetting(ctypes.Structure):
         ('model', ctypes.c_int),
         ('dutyByteLength', ctypes.c_int8),
     ]
+
 
 class ReceivedGripperData(ctypes.Structure):
     _pack_ = 1
@@ -73,21 +76,22 @@ class ReceivedGripperData(ctypes.Structure):
         ('firmwareVersion', ctypes.c_int),
     ]
 
+
 class TesolloJointStateBroadcaster(Node):
     def __init__(self):
         super().__init__('tesollo_joint_state_broadcaster')
         self.pub = self.create_publisher(JointState, '/joint_states', 10)
-        
+
         self.joint_names = [
-            "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4",  # Pouce
+            "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4",  # Thumb
             "rj_dg_2_1", "rj_dg_2_2", "rj_dg_2_3", "rj_dg_2_4",  # Index
-            "rj_dg_3_1", "rj_dg_3_2", "rj_dg_3_3", "rj_dg_3_4",  # Majeur
-            "rj_dg_4_1", "rj_dg_4_2", "rj_dg_4_3", "rj_dg_4_4",  # Annulaire
-            "rj_dg_5_1", "rj_dg_5_2", "rj_dg_5_3", "rj_dg_5_4",  # Auriculaire
+            "rj_dg_3_1", "rj_dg_3_2", "rj_dg_3_3", "rj_dg_3_4",  # Middle
+            "rj_dg_4_1", "rj_dg_4_2", "rj_dg_4_3", "rj_dg_4_4",  # Ring
+            "rj_dg_5_1", "rj_dg_5_2", "rj_dg_5_3", "rj_dg_5_4",  # Pinky
         ]
 
         if not os.path.isfile(LIB_DGSDK_PATH):
-            self.get_logger().error(f"Bibliothèque {LIB_DGSDK_PATH} introuvable.")
+            self.get_logger().error(f"Shared library {LIB_DGSDK_PATH} not found.")
             sys.exit(1)
 
         self.lib = ctypes.CDLL(LIB_DGSDK_PATH)
@@ -119,11 +123,11 @@ class TesolloJointStateBroadcaster(Node):
         sys_set.comport = b"COM1"
 
         if self.lib.SetGripperSystem(sys_set) != 0:
-            self.get_logger().error("Échec SetGripperSystem")
+            self.get_logger().error("SetGripperSystem failed")
             return
 
         if self.lib.ConnectToGripper() != 0:
-            self.get_logger().error("Impossible de se connecter à la main Tesollo (169.254.186.72:502)")
+            self.get_logger().error("Unable to connect to Tesollo hand (169.254.186.72:502)")
             return
 
         time.sleep(0.4)
@@ -138,16 +142,16 @@ class TesolloJointStateBroadcaster(Node):
         time.sleep(0.5)
 
         if self.lib.SystemStart() != 0:
-            self.get_logger().error("Échec SystemStart")
+            self.get_logger().error("SystemStart failed")
             return
 
-        self.get_logger().info("✅ Connecté à la main Tesollo DG-5F. Diffusion temps réel sur /joint_states active.")
+        self.get_logger().info("Connected to Tesollo DG-5F hand. Live broadcasting on /joint_states active.")
 
     def _on_data_cb(self, data: ReceivedGripperData):
         msg = JointState()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.name = self.joint_names
-        # Conversion impérative Degrés -> Radians
+        # Convert degrees to radians for ROS 2 JointState
         msg.position = [math.radians(float(data.joint[i])) for i in range(20)]
         self.pub.publish(msg)
 
@@ -159,6 +163,7 @@ class TesolloJointStateBroadcaster(Node):
             pass
         super().destroy_node()
 
+
 def main():
     rclpy.init()
     node = TesolloJointStateBroadcaster()
@@ -169,6 +174,7 @@ def main():
     finally:
         node.destroy_node()
         rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()

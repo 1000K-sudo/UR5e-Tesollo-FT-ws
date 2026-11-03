@@ -1,0 +1,13 @@
+# ==============================================================================
+# Author: Kamil BENMADI
+# Email: kamil.benmadi@sigma-clermont.fr
+# GitHub: https://github.com/1000K-sudo
+# LinkedIn: https://www.linkedin.com/in/kamilb-
+# ==============================================================================
+# Python Dependencies for UR5e + Tesollo DG-5F + OnRobot HEX-E v2 Cell
+# Install with: pip install -r requirements.txt
+# ==============================================================================
+
+pysoem>=1.1.0
+numpy>=1.21.0
+matplotlib>=3.5.0

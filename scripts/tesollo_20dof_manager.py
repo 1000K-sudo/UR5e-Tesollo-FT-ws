@@ -37,21 +37,21 @@ LIB_DGSDK_PATH = (
     else os.path.join(WORKSPACE_DIR, "sdk_tools", "DGSDK", "libDGSDK.so")
 )
 
-FINGER_NAMES = ["Pouce", "Index", "Majeur", "Annulaire", "Auriculaire"]
+FINGER_NAMES = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
 JOINT_ROLES = ["Abduction/Adduction", "Rotation/Flexion 1", "Flexion 2", "Flexion 3"]
 
-# Noms normalisés des 20 articulations ROS 2
+# Standardized ROS 2 joint names for the 20 joints
 ROS2_JOINT_NAMES = [
-    "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4",  # Pouce
+    "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4",  # Thumb
     "rj_dg_2_1", "rj_dg_2_2", "rj_dg_2_3", "rj_dg_2_4",  # Index
-    "rj_dg_3_1", "rj_dg_3_2", "rj_dg_3_3", "rj_dg_3_4",  # Majeur
-    "rj_dg_4_1", "rj_dg_4_2", "rj_dg_4_3", "rj_dg_4_4",  # Annulaire
-    "rj_dg_5_1", "rj_dg_5_2", "rj_dg_5_3", "rj_dg_5_4",  # Auriculaire
+    "rj_dg_3_1", "rj_dg_3_2", "rj_dg_3_3", "rj_dg_3_4",  # Middle
+    "rj_dg_4_1", "rj_dg_4_2", "rj_dg_4_3", "rj_dg_4_4",  # Ring
+    "rj_dg_5_1", "rj_dg_5_2", "rj_dg_5_3", "rj_dg_5_4",  # Pinky
 ]
 
 
 # =============================================================================
-# Structures CTypes pour libDGSDK.so
+# CTypes Structures for libDGSDK.so
 # =============================================================================
 class GripperSystemSetting(ctypes.Structure):
     _pack_ = 1
@@ -101,7 +101,7 @@ class ReceivedGripperData(ctypes.Structure):
 
 
 # =============================================================================
-# Classe Interface Bas-Niveau DGSDK
+# Low-Level DGSDK Interface Class
 # =============================================================================
 class TesolloLowLevelSDK:
     def __init__(self, ip: str = "169.254.186.72", port: int = 502):
@@ -118,7 +118,7 @@ class TesolloLowLevelSDK:
                 self.lib = ctypes.CDLL(LIB_DGSDK_PATH)
                 self._setup_prototypes()
             except Exception as e:
-                print(f"[Avertissement] Impossible de charger {LIB_DGSDK_PATH}: {e}")
+                print(f"[WARN] Could not load {LIB_DGSDK_PATH}: {e}")
 
     def _setup_prototypes(self):
         self.lib.SetGripperSystem.argtypes = [GripperSystemSetting]
@@ -157,7 +157,6 @@ class TesolloLowLevelSDK:
         if not self.lib:
             return False
 
-        # Configuration système
         sys_set = GripperSystemSetting()
         sys_set.port = self.port
         sys_set.baudrate = 115200
@@ -171,7 +170,6 @@ class TesolloLowLevelSDK:
         if self.lib.SetGripperSystem(sys_set) != 0:
             return False
 
-        # Callbacks
         self._cb_holder = self.ON_DATA_FUNC(self._on_data)
         self.lib.CallbackForOnReceivedGripperData(self._cb_holder)
 
@@ -179,7 +177,6 @@ class TesolloLowLevelSDK:
             return False
         time.sleep(0.4)
 
-        # Options gripper DG_5F_RIGHT (model = 4)
         gs = GripperSetting()
         gs.model = 4  # DG_MODEL_DG_5F_RIGHT
         gs.movingInpose = 1.0
@@ -211,7 +208,7 @@ class TesolloLowLevelSDK:
             self.connected = False
 
     def read_actual_joints(self, timeout_sec: float = 2.0) -> Optional[List[float]]:
-        """Attend la réception d'une trame et renvoie les 20 angles réels."""
+        """Waits for a feedback frame and returns the 20 actual joint angles in degrees."""
         t0 = time.time()
         while time.time() - t0 < timeout_sec:
             if self.data_received:
@@ -220,7 +217,7 @@ class TesolloLowLevelSDK:
         return None
 
     def move_joint_all(self, target_joints: List[float], time_ms: int = 1500) -> bool:
-        """Envoie les 20 angles cibles avec une durée interpolée."""
+        """Sends all 20 target joint angles with an interpolated motion duration."""
         if not self.connected or len(target_joints) != 20:
             return False
         c_arr = (ctypes.c_float * 20)(*target_joints)
@@ -230,7 +227,7 @@ class TesolloLowLevelSDK:
 
 
 # =============================================================================
-# Fonctions d'Import et de Gestion des Poses
+# Posture Import & Catalog Management Functions
 # =============================================================================
 def load_20dof_presets(file_path: str = HAND_POSES_20DOF_FILE) -> Dict[str, Any]:
     if os.path.isfile(file_path):
@@ -248,9 +245,9 @@ def save_20dof_presets(presets: Dict[str, Any], file_path: str = HAND_POSES_20DO
 
 
 def import_from_dgmanager(dgmanager_json: str = DGMANAGER_CONFIG_PATH) -> Dict[str, Any]:
-    """Importe toutes les poses définies dans le fichier de config officiel de DGManager."""
+    """Imports all postures defined in the DGManager recipe configuration file."""
     if not os.path.isfile(dgmanager_json):
-        print(f"[ERREUR] Fichier DGManager non trouvé: {dgmanager_json}")
+        print(f"[ERROR] DGManager recipe file not found: {dgmanager_json}")
         return {}
 
     with open(dgmanager_json, "r", encoding="utf-8") as f:
@@ -273,15 +270,14 @@ def import_from_dgmanager(dgmanager_json: str = DGMANAGER_CONFIG_PATH) -> Dict[s
         if len(tj) == 20 and any(abs(x) > 0.001 for x in tj):
             name = default_names.get(k, f"DG_Recipe_Pose_{k}")
             imported[name] = {
-                "description": f"Posture 20-DDL certifiée importée depuis DGManager (Recette #{k})",
+                "description": f"Certified 20-DoF posture imported from DGManager (Recipe #{k})",
                 "joints_20": [round(float(x), 2) for x in tj],
                 "motion_time_ms": v.get("jointMotionTime", [1500]*20)[0]
             }
 
-    # Ajouter la pose 1 (Home tout ouvert à 0°) si absente
     if "DG_Home_Ouverte" not in imported and "1" in poses_dict:
         imported["DG_Home_Ouverte"] = {
-            "description": "Posture de référence main entièrement ouverte (0°)",
+            "description": "Reference open hand posture (all 20 joints at 0.0 deg)",
             "joints_20": [0.0] * 20,
             "motion_time_ms": 1500
         }
@@ -292,69 +288,70 @@ def import_from_dgmanager(dgmanager_json: str = DGMANAGER_CONFIG_PATH) -> Dict[s
 def format_pose_display(name: str, pose_data: Dict[str, Any]) -> str:
     q = pose_data.get("joints_20", [0.0]*20)
     desc = pose_data.get("description", "")
-    lines = [f"\n🖐 Posture 20-DDL : {name}"]
+    lines = [f"\n🖐 20-DoF Posture: {name}"]
     if desc:
         lines.append(f"   Description : {desc}")
     lines.append("   " + "-" * 55)
 
     for i, f_name in enumerate(FINGER_NAMES):
         vals = q[i*4 : (i+1)*4]
-        vals_str = ", ".join(f"{v:+6.1f}°" for v in vals)
-        lines.append(f"   • {f_name:11s} : [Abd:{vals[0]:+5.1f}°, Rot/MCP:{vals[1]:+5.1f}°, PIP:{vals[2]:+5.1f}°, DIP:{vals[3]:+5.1f}°]")
+        lines.append(
+            f"   • {f_name:11s} : [Abd:{vals[0]:+5.1f}°, Rot/MCP:{vals[1]:+5.1f}°, PIP:{vals[2]:+5.1f}°, DIP:{vals[3]:+5.1f}°]"
+        )
 
     return "\n".join(lines)
 
 
 # =============================================================================
-# Commandes CLI
+# CLI Commands
 # =============================================================================
 def cmd_import_dgmanager():
-    print(f"[*] Lecture des recettes DGManager depuis : {DGMANAGER_CONFIG_PATH}")
+    print(f"[*] Reading DGManager recipes from: {DGMANAGER_CONFIG_PATH}")
     imported = import_from_dgmanager()
     if not imported:
-        print("[-] Aucune posture trouvée à importer.")
+        print("[-] No postures found to import.")
         return
 
     existing = load_20dof_presets()
     existing.update(imported)
     save_20dof_presets(existing)
-    print(f"[✔] {len(imported)} postures 20-DDL importées et sauvegardées dans {HAND_POSES_20DOF_FILE} :")
-    for name, data in imported.items():
+    print(f"[✔] {len(imported)} 20-DoF postures imported and saved to {HAND_POSES_20DOF_FILE}:")
+    for name in imported:
         print(f"    - {name}")
 
 
 def cmd_list_poses():
     presets = load_20dof_presets()
     if not presets:
-        print(f"[-] Aucune posture dans {HAND_POSES_20DOF_FILE}. Lancez 'import' ou 'capture'.")
+        print(f"[-] No postures found in {HAND_POSES_20DOF_FILE}. Run 'import' or 'capture'.")
         return
 
-    print(f"\n=== Bibliothèque des Postures 20-DDL Tesollo ({len(presets)} poses) ===")
+    print(f"\n=== Tesollo 20-DoF Posture Library ({len(presets)} poses) ===")
     for name, data in presets.items():
         print(format_pose_display(name, data))
 
 
 def cmd_capture_live(name: str, desc: str = ""):
-    print(f"[*] Connexion à la main Tesollo pour capture en direct...")
+    print("[*] Connecting to Tesollo hand for live encoder capture...")
     sdk = TesolloLowLevelSDK()
     if not sdk.connect():
-        print("[-] Échec de connexion à la main (169.254.186.72:502). Vérifiez l'alimentation et le câble Ethernet.")
+        print("[-] Failed to connect to hand (169.254.186.72:502). Check 24V power and Ethernet cable.")
         return
 
     try:
         q = sdk.read_actual_joints(timeout_sec=3.0)
         if not q:
-            print("[-] Aucune donnée articulaire reçue de la main.")
+            print("[-] No joint encoder data received from hand.")
             return
 
         presets = load_20dof_presets()
         presets[name] = {
-            "description": desc or f"Posture capturée en direct via encodeurs ({time.strftime('%Y-%m-%d %H:%M:%S')})",
+            "description": desc or f"Live posture captured from hardware encoders ({time.strftime('%Y-%m-%d %H:%M:%S')})",
             "joints_20": q,
             "motion_time_ms": 1500
         }
         save_20dof_presets(presets)
-        print(f"[✔] Posture '{name}' capturée avec succès !")
+        print(f"[✔] Posture '{name}' captured successfully!")
         print(format_pose_display(name, presets[name]))
     finally:
         sdk.disconnect()
@@ -363,27 +360,27 @@ def cmd_capture_live(name: str, desc: str = ""):
 def cmd_play_pose(name: str, duration_sec: float = 2.0):
     presets = load_20dof_presets()
     if name not in presets:
-        print(f"[-] Posture '{name}' introuvable dans {HAND_POSES_20DOF_FILE}.")
+        print(f"[-] Posture '{name}' not found in {HAND_POSES_20DOF_FILE}.")
         return
 
     pose_data = presets[name]
     q = pose_data["joints_20"]
     time_ms = int(duration_sec * 1000)
 
-    print(f"[*] Application sécurisée de la posture '{name}' (durée: {duration_sec}s)...")
+    print(f"[*] Safely applying posture '{name}' (duration: {duration_sec}s)...")
     sdk = TesolloLowLevelSDK()
     if not sdk.connect():
-        print("[-] Échec de connexion à la main Tesollo.")
+        print("[-] Failed to connect to Tesollo hand.")
         return
 
     try:
         ok = sdk.move_joint_all(q, time_ms=time_ms)
         if ok:
-            print(f"[✔] Commande transmise avec succès. Mouvement en cours...")
+            print("[✔] Command transmitted successfully. Executing motion...")
             time.sleep(duration_sec + 0.2)
-            print("[✔] Posture atteinte.")
+            print("[✔] Target posture reached.")
         else:
-            print("[-] Échec lors de l'envoi de la commande MoveJointAll.")
+            print("[-] Failed to send MoveJointAll command.")
     finally:
         sdk.disconnect()
 
@@ -392,24 +389,19 @@ def cmd_play_pose(name: str, duration_sec: float = 2.0):
 # Main
 # =============================================================================
 def main():
-    parser = argparse.ArgumentParser(description="Gestionnaire de postures 20-DDL Tesollo DG-5F")
+    parser = argparse.ArgumentParser(description="Tesollo DG-5F 20-DoF Posture Manager")
     subparsers = parser.add_subparsers(dest="command")
 
-    # import
-    subparsers.add_parser("import", help="Importer les recettes depuis DGManager")
+    subparsers.add_parser("import", help="Import recipes from DGManager")
+    subparsers.add_parser("list", help="List all saved 20-DoF postures")
 
-    # list
-    subparsers.add_parser("list", help="Lister toutes les postures 20-DDL sauvegardées")
+    p_cap = subparsers.add_parser("capture", help="Capture current posture from physical hand encoders")
+    p_cap.add_argument("name", type=str, help="Posture name")
+    p_cap.add_argument("--desc", type=str, default="", help="Optional description")
 
-    # capture
-    p_cap = subparsers.add_parser("capture", help="Capturer la posture actuelle depuis la main physique")
-    p_cap.add_argument("name", type=str, help="Nom de la posture")
-    p_cap.add_argument("--desc", type=str, default="", help="Description optionnelle")
-
-    # play
-    p_play = subparsers.add_parser("play", help="Appliquer une posture 20-DDL sur la main")
-    p_play.add_argument("name", type=str, help="Nom de la posture à appliquer")
-    p_play.add_argument("--duration", type=float, default=2.0, help="Durée du mouvement en secondes (défaut: 2.0)")
+    p_play = subparsers.add_parser("play", help="Apply a 20-DoF posture on the physical hand")
+    p_play.add_argument("name", type=str, help="Posture name to apply")
+    p_play.add_argument("--duration", type=float, default=2.0, help="Motion duration in seconds (default: 2.0)")
 
     args = parser.parse_args()
 

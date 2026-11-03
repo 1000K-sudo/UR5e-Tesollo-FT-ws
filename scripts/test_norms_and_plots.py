@@ -185,9 +185,9 @@ class TestNormCalculations(unittest.TestCase):
                 [sys.executable, script, csv_file, "--save-only", "-o", out_png],
                 capture_output=True, text=True, check=True
             )
-            self.assertIn("Statistiques d'effort/couple", res.stdout)
-            self.assertIn("Norme Force  ||F||", res.stdout)
-            self.assertIn("Norme Couple ||T||", res.stdout)
+            self.assertIn("Force/Torque Statistics", res.stdout)
+            self.assertIn("Force Norm  ||F||", res.stdout)
+            self.assertIn("Torque Norm ||T||", res.stdout)
             self.assertTrue(os.path.isfile(out_png))
             self.assertGreater(os.path.getsize(out_png), 1000)
 
@@ -196,28 +196,28 @@ class TestNormCalculations(unittest.TestCase):
                 [sys.executable, script, csv_file, "--raw", "--save-only", "-o", out_png],
                 capture_output=True, text=True, check=True
             )
-            self.assertIn("[BRUT]", res_raw.stdout)
+            self.assertIn("[RAW]", res_raw.stdout)
 
             # 3. Norm-only plot
             res_norm = subprocess.run(
                 [sys.executable, script, csv_file, "--norm-only", "--save-only", "-o", out_png],
                 capture_output=True, text=True, check=True
             )
-            self.assertIn("Norme Force  ||F||", res_norm.stdout)
+            self.assertIn("Force Norm  ||F||", res_norm.stdout)
 
             # 4. Save-only with automatic fallback when directory is read-only
             res_fallback = subprocess.run(
                 [sys.executable, script, csv_file, "--save-only"],
                 capture_output=True, text=True, check=True
             )
-            self.assertIn("Graphique sauvegardé", res_fallback.stdout)
+            self.assertIn("Figure saved", res_fallback.stdout)
 
             # 5. --no-save flag
             res_nosave = subprocess.run(
                 [sys.executable, script, csv_file, "--no-save", "--save-only"],
                 capture_output=True, text=True, check=True
             )
-            self.assertNotIn("Graphique sauvegardé", res_nosave.stdout)
+            self.assertNotIn("Figure saved", res_nosave.stdout)
 
     def test_single_point_csv(self):
         """Edge case: file with exactly one data point."""
@@ -247,8 +247,8 @@ class TestNormCalculations(unittest.TestCase):
                 [sys.executable, script, csv_path, "--save-only", "-o", out_png],
                 capture_output=True, text=True, check=True
             )
-            self.assertIn("Points chargés : 1", res.stdout)
-            self.assertIn("Durée : 0.00 s", res.stdout)
+            self.assertIn("Loaded samples: 1", res.stdout)
+            self.assertIn("Duration: 0.00 s", res.stdout)
             self.assertTrue(os.path.isfile(out_png))
 
     def test_negative_values_norm(self):
@@ -339,7 +339,7 @@ class TestNormCalculations(unittest.TestCase):
                 [sys.executable, script, tmpdir, "--save-only", "-o", out_png],
                 capture_output=True, text=True, check=True
             )
-            self.assertIn("Points chargés : 1", res.stdout)
+            self.assertIn("Loaded samples: 1", res.stdout)
             self.assertTrue(os.path.isfile(out_png))
 
     def test_synthetic_ethercat_frame_decoding(self):

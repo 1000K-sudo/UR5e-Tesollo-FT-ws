@@ -77,6 +77,8 @@ A unified bash management script at the root of the repository centralizes compi
 ```text
 ur5e_tesollo_ws/
 ├── README.md                              ← Main technical documentation
+├── LICENSE                                ← Apache-2.0 open-source license
+├── requirements.txt                       ← Python dependencies (pysoem, numpy, matplotlib)
 ├── ur5e_cell.sh                           ← ✨ Unified CLI management script
 ├── docs/
 │   ├── HARDWARE_SETUP.md                  ← Mechanical stack (ISO-50), electrical wiring & dual-NIC network setup

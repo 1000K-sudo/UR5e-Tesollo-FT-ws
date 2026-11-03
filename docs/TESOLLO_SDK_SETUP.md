@@ -103,9 +103,11 @@ For ROS 2 integration, the [`src/xela_server_ros2`](../src/xela_server_ros2), [`
 
 All hardware manuals and kinematic datasheets are archived in [`docs/manuals/`](manuals/):
 - **[DG-5F_User_Manual_En_v1.1.4.pdf](manuals/DG-5F_User_Manual_En_v1.1.4.pdf):** Complete Tesollo DG-5F hardware, Modbus register, and electrical manual.
+- **[Delto_Gripper_Manager_and_SDK_User_Manual_ver_1_6_0_EN.pdf](manuals/Delto_Gripper_Manager_and_SDK_User_Manual_ver_1_6_0_EN.pdf):** Official Delto Gripper Manager GUI and C/C++ `DGSDK v1.6.0` reference manual.
 - **[Delto_Gripper_5F_DH_Parameter.pdf](manuals/Delto_Gripper_5F_DH_Parameter.pdf):** Official Denavit-Hartenberg (DH) kinematic parameters for all 5 fingers.
 - **[XelaSensorsSetupinTesolloHand.pdf](manuals/XelaSensorsSetupinTesolloHand.pdf):** Integration guide for Xela uSkin tactile pads on the Tesollo DG-5F hand.
 - **[XELA_software_manual_1.8.1_237601.pdf](manuals/XELA_software_manual_1.8.1_237601.pdf):** Xela Server, WebSocket API, and ROS 2 driver manual.
+- **[VSCAN_Manual.pdf](manuals/VSCAN_Manual.pdf):** VSCOM USB-CAN adapter hardware and `slcand` SocketCAN configuration manual.
 
 ---
 

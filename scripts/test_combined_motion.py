@@ -37,7 +37,7 @@ class CombinedMotionTester(Node):
     def __init__(self):
         super().__init__('combined_motion_tester')
 
-        # Noms des articulations UR5e
+        # UR5e 6-DoF joint names
         self.ur_joint_names = [
             "shoulder_pan_joint",
             "shoulder_lift_joint",
@@ -47,13 +47,13 @@ class CombinedMotionTester(Node):
             "wrist_3_joint",
         ]
 
-        # Noms des 20 articulations Tesollo DG-5F (doigts 1 à 5)
+        # Tesollo DG-5F 20-DoF joint names (fingers 1 to 5)
         self.tesollo_joint_names = [
-            "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4",  # Pouce
+            "rj_dg_1_1", "rj_dg_1_2", "rj_dg_1_3", "rj_dg_1_4",  # Thumb
             "rj_dg_2_1", "rj_dg_2_2", "rj_dg_2_3", "rj_dg_2_4",  # Index
-            "rj_dg_3_1", "rj_dg_3_2", "rj_dg_3_3", "rj_dg_3_4",  # Majeur
-            "rj_dg_4_1", "rj_dg_4_2", "rj_dg_4_3", "rj_dg_4_4",  # Annulaire
-            "rj_dg_5_1", "rj_dg_5_2", "rj_dg_5_3", "rj_dg_5_4",  # Auriculaire
+            "rj_dg_3_1", "rj_dg_3_2", "rj_dg_3_3", "rj_dg_3_4",  # Middle
+            "rj_dg_4_1", "rj_dg_4_2", "rj_dg_4_3", "rj_dg_4_4",  # Ring
+            "rj_dg_5_1", "rj_dg_5_2", "rj_dg_5_3", "rj_dg_5_4",  # Pinky
         ]
 
         # Publishers
@@ -68,7 +68,7 @@ class CombinedMotionTester(Node):
             10
         )
 
-        # Subscriber pour capturer la position actuelle de l'UR5e
+        # Subscriber to capture the current actual posture of the UR5e arm
         self.current_ur_positions = {}
         self.ur_sub = self.create_subscription(
             JointState,
@@ -77,7 +77,7 @@ class CombinedMotionTester(Node):
             10
         )
 
-        self.get_logger().info("En attente de la réception des états articulaires de l'UR5e (/joint_states)...")
+        self.get_logger().info("Waiting for UR5e joint states (/joint_states)...")
 
     def joint_states_callback(self, msg: JointState):
         for name, pos in zip(msg.name, msg.position):
@@ -93,7 +93,7 @@ class CombinedMotionTester(Node):
         return False
 
     def build_ur_trajectory(self):
-        """Génère un va-et-vient doux sur le poignet wrist_3 (+/- 8.5 deg) en 5s."""
+        """Generates a smooth back-and-forth rotation on wrist_3_joint (+/- 8.5 deg) over 5s."""
         traj = JointTrajectory()
         traj.joint_names = self.ur_joint_names
         traj.header.stamp = self.get_clock().now().to_msg()
@@ -101,7 +101,7 @@ class CombinedMotionTester(Node):
         q0 = [self.current_ur_positions[j] for j in self.ur_joint_names]
         delta_wrist = deg2rad(8.5)  # 0.148 rad
 
-        # Point 1 : Légère rotation wrist_3 (t = 2.5s)
+        # Waypoint 1: Slight wrist_3 rotation (t = 2.5s)
         p1 = JointTrajectoryPoint()
         q1 = list(q0)
         q1[5] += delta_wrist  # index 5 = wrist_3_joint
@@ -109,7 +109,7 @@ class CombinedMotionTester(Node):
         p1.velocities = [0.0] * 6
         p1.time_from_start = Duration(sec=2, nanosec=500_000_000)
 
-        # Point 2 : Retour exact à la position d'origine (t = 5s)
+        # Waypoint 2: Exact return to initial position (t = 5.0s)
         p2 = JointTrajectoryPoint()
         p2.positions = list(q0)
         p2.velocities = [0.0] * 6
@@ -119,34 +119,29 @@ class CombinedMotionTester(Node):
         return traj
 
     def build_hand_trajectory(self):
-        """Génère une fermeture souple des 4 doigts + pouce, puis réouverture en 5s."""
+        """Generates a smooth 5-finger grasp and release over 5s."""
         traj = JointTrajectory()
         traj.joint_names = self.tesollo_joint_names
 
-        # Position ouverte (repos = 0)
         q_open = [0.0] * 20
 
-        # Position préhension (flexion à 60° des phalanges médianes et distales)
         flex = deg2rad(60.0)
         q_closed = [
-            0.0, deg2rad(25.0), flex, flex,  # Pouce
+            0.0, deg2rad(25.0), flex, flex,  # Thumb
             0.0, 0.0, flex, flex,            # Index
-            0.0, 0.0, flex, flex,            # Majeur
-            0.0, 0.0, flex, flex,            # Annulaire
-            0.0, 0.0, flex, flex,            # Auriculaire
+            0.0, 0.0, flex, flex,            # Middle
+            0.0, 0.0, flex, flex,            # Ring
+            0.0, 0.0, flex, flex,            # Pinky
         ]
 
-        # Point 0 : Main ouverte (t = 0s)
         p0 = JointTrajectoryPoint()
         p0.positions = q_open
         p0.time_from_start = Duration(sec=0, nanosec=0)
 
-        # Point 1 : Main fermée synchronisée avec la mi-course du bras (t = 2.5s)
         p1 = JointTrajectoryPoint()
         p1.positions = q_closed
         p1.time_from_start = Duration(sec=2, nanosec=500_000_000)
 
-        # Point 2 : Réouverture complète (t = 5s)
         p2 = JointTrajectoryPoint()
         p2.positions = q_open
         p2.time_from_start = Duration(sec=5, nanosec=0)
@@ -168,32 +163,28 @@ class CombinedMotionTester(Node):
 
         def trigger_hand():
             if os.path.isfile(cmd_path):
-                self.get_logger().info("[Main Tesollo] Exécution physique du mouvement (Flexion 45° puis réouverture)...")
-                # Flexion des doigts
+                self.get_logger().info("[Tesollo Hand] Executing physical finger flexion (45 deg) and release...")
                 subprocess.run([cmd_path, "flex", "45"])
                 time.sleep(1.0)
-                # Retour à zéro
                 subprocess.run([cmd_path, "zero"])
             else:
-                self.get_logger().warn("[Main Tesollo] Utilitaire tesollo_cmd non trouvé, publication topic ROS2 uniquement.")
+                self.get_logger().warn("[Tesollo Hand] tesollo_cmd binary not found; publishing ROS 2 topic only.")
 
-        self.get_logger().info(">>> ENVOI SIMULTANÉ DES TRAJECTOIRES BRAS + MAIN <<<")
+        self.get_logger().info(">>> SENDING SIMULTANEOUS ARM + HAND TRAJECTORIES <<<")
 
-        # 1. Démarrer la main dans un thread dédié
         hand_thread = threading.Thread(target=trigger_hand)
         hand_thread.start()
 
-        # 2. Envoyer la trajectoire au bras UR5e et sur le topic ROS 2
         self.ur_pub.publish(ur_traj)
         self.hand_pub.publish(hand_traj)
-        self.get_logger().info("Mouvement coordonné en cours (durée totale : ~5 secondes)...")
+        self.get_logger().info("Coordinated motion in progress (total duration: ~5 seconds)...")
 
         t0 = time.time()
         while time.time() - t0 < 5.5:
             rclpy.spin_once(self, timeout_sec=0.1)
 
         hand_thread.join(timeout=3.0)
-        self.get_logger().info("Mouvement terminé avec succès !")
+        self.get_logger().info("Coordinated motion completed successfully!")
 
 
 def main():
@@ -201,36 +192,35 @@ def main():
     tester = CombinedMotionTester()
 
     print("\n" + "=" * 70)
-    print("  TEST DE MOUVEMENT COMBINÉ SÉCURISÉ : UR5e + TESOLLO DG-5F")
+    print("  SAFE COORDINATED MOTION TEST: UR5e + TESOLLO DG-5F")
     print("=" * 70)
 
-    # 1. Attente de la capture d'état
     if not tester.wait_for_ur_state(timeout_sec=5.0):
-        print("\n[ERREUR] Impossible de lire /joint_states du robot UR5e.")
-        print("Vérifiez que ur_robot_driver est bien lancé et que le programme")
-        print("URCap 'External Control' est démarré sur le Teach Pendant.")
+        print("\n[ERROR] Unable to read /joint_states from the UR5e robot.")
+        print("Verify that ur_robot_driver is running and that the")
+        print("'External Control' URCap program is playing on the Teach Pendant.")
         tester.destroy_node()
         rclpy.shutdown()
         sys.exit(1)
 
-    print("\nPositions articulaires actuelles de l'UR5e capturées avec succès :")
+    print("\nCurrent UR5e joint positions captured successfully:")
     for j in tester.ur_joint_names:
         pos_deg = math.degrees(tester.current_ur_positions[j])
         print(f"  - {j:20s} : {pos_deg:+8.2f}° ({tester.current_ur_positions[j]:+.4f} rad)")
 
-    print("\nPlan de mouvement prévu :")
-    print("  1. Bras UR5e  : rotation douce relative de +8.5° sur wrist_3, puis retour à la position initiale.")
-    print("  2. Main DG-5F : fermeture coordonnée des 5 doigts à mi-course, puis réouverture complète.")
-    print("  3. Durée totale : 5.0 secondes (vitesse très modérée).")
+    print("\nPlanned Motion Sequence:")
+    print("  1. UR5e Arm  : smooth relative rotation of +8.5° on wrist_3_joint, then return to initial pose.")
+    print("  2. DG-5F Hand: coordinated 5-finger flexion to mid-stroke, then full release.")
+    print("  3. Duration  : 5.0 seconds total (low speed).")
     print("=" * 70)
-    print("\n[CONSIGNE DE SÉCURITÉ]")
-    print("  - Gardez le bouton d'arrêt d'urgence (Coup de poing) du Teach Pendant à portée de main.")
-    print("  - Vérifiez qu'aucun obstacle ne se trouve à proximité immédiate de la main.")
+    print("\n[SAFETY NOTICE]")
+    print("  - Keep the Teach Pendant Emergency Stop button within immediate reach.")
+    print("  - Ensure no obstacles are near the robotic arm or hand.")
 
     try:
-        input("\nAppuyez sur [ENTRÉE] pour exécuter le mouvement (ou Ctrl+C pour annuler)... ")
+        input("\nPress [ENTER] to execute the coordinated motion (or Ctrl+C to cancel)... ")
     except KeyboardInterrupt:
-        print("\nAnnulé par l'utilisateur.")
+        print("\nCancelled by user.")
         tester.destroy_node()
         rclpy.shutdown()
         sys.exit(0)

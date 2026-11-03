@@ -419,13 +419,13 @@ def main():
         if cycle_count > 0:
             print("-" * 70)
             if do_tare:
-                print("  Session Peak Statistics (TARÉ):")
-                print(f"    ||F|| max (Effort total taré) : {max_f_norm:.3f} N  [Brut max: {max_f_raw_norm:.3f} N]")
-                print(f"    ||T|| max (Couple total taré) : {max_t_norm:.4f} Nm [Brut max: {max_t_raw_norm:.4f} Nm]")
+                print("  Session Peak Statistics (TARED):")
+                print(f"    ||F|| max (Total tared force)  : {max_f_norm:.3f} N  [Raw max: {max_f_raw_norm:.3f} N]")
+                print(f"    ||T|| max (Total tared torque) : {max_t_norm:.4f} Nm [Raw max: {max_t_raw_norm:.4f} Nm]")
             else:
-                print("  Session Peak Statistics (BRUT):")
-                print(f"    ||F|| max (Effort total brut) : {max_f_norm:.3f} N")
-                print(f"    ||T|| max (Couple total brut) : {max_t_norm:.4f} Nm")
+                print("  Session Peak Statistics (RAW):")
+                print(f"    ||F|| max (Total raw force)  : {max_f_norm:.3f} N")
+                print(f"    ||T|| max (Total raw torque) : {max_t_norm:.4f} Nm")
             print("-" * 70)
 
         if "recorded_samples" in locals() and recorded_samples and args.format != "none":
@@ -461,7 +461,7 @@ def main():
                         writer.writerow([tare_bias_line])
                         writer.writerow(headers)
                         writer.writerows(recorded_samples)
-                    print(f"  [Export] Données enregistrées ({len(recorded_samples)} points) -> {file_path}")
+                    print(f"  [Export] Data saved ({len(recorded_samples)} samples) -> {file_path}")
 
                 elif fmt == "txt":
                     with open(file_path, "w", encoding="utf-8") as fp:
@@ -470,17 +470,17 @@ def main():
                         fp.write("\t".join(headers) + "\n")
                         for row in recorded_samples:
                             fp.write("\t".join(str(x) for x in row) + "\n")
-                    print(f"  [Export] Données enregistrées ({len(recorded_samples)} points) -> {file_path}")
+                    print(f"  [Export] Data saved ({len(recorded_samples)} samples) -> {file_path}")
 
                 elif fmt == "npy":
                     try:
                         import numpy as np
                         numeric_data = np.array([row[:-1] for row in recorded_samples], dtype=np.float64)
                         np.save(file_path, numeric_data)
-                        print(f"  [Export] Données binaires NumPy ({len(recorded_samples)} points, "
+                        print(f"  [Export] NumPy binary data saved ({len(recorded_samples)} samples, "
                               f"shape {numeric_data.shape}) -> {file_path}")
                     except ImportError:
-                        print("  [Export] AVERTISSEMENT : numpy n'est pas installé, export .npy ignoré.")
+                        print("  [Export] WARNING: numpy is not installed, .npy export skipped.")
 
 
 if __name__ == "__main__":
