@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: Arial, sans-serif;
+    background: var(--background-color); 
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* 중앙 정렬 컨테이너 */
+  .container {
+    width: 100%;
+    max-width: 500px;
+    background: #fff;
+    margin: 20px;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  /* 버튼 스타일 */
+  /* button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--button-text-color);
+    background-color: var(--button-background-color);
+    box-shadow: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  } */
+
+  button {
+	border: 1px solid var(--border-color);
+	padding: 12px 25px;
+    margin: 10px;
+    width: 250px;
+    font-size: 16px;
+	border-radius: 2px;
+	background-color: var(--button-background-color);
+	box-shadow: 2px 1px 1px var(--secondary-background-color);
+	transition: box-shadow 0.1s ease, transform 0.1s ease;
+	color: var(--button-text-color);
+}
+  button:hover {
+    background-color: dark(var(--button-background-color, #007bff), 10%);
+    transform: translateY(-2px);
+  }
+  button:active {
+    transform: translateY(0);
+  }
+  button:disabled{
+    background-color: color-mix(in srgb, var(--button-background-color, #000000) 80%, black 20%);
+    color: var(--button-text-color);
+    transform: none;
+    cursor: not-allowed;
+    transition: none;
+  }
+  /* 로딩 화면 텍스트 */
+  #loadingScreen p {
+    font-size: 18px;
+    margin: 0;
+    color: var(--button-text-color);
+  }
+/* 스피너 스타일 */
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.spinner-svg {
+  width: 50px;
+  height: 50px;
+  animation: rotate 2s linear infinite;
+}
+
+.spinner-svg .path {
+  stroke: #4caf50;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -125;
+  }
+}

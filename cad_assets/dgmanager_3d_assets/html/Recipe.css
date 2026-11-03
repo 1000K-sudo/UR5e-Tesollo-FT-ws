@@ -1,0 +1,301 @@
+/* =======================================
+   1) 전체 및 폰트 초기 설정
+   ======================================= */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    /* overflow-y: auto; */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--background-color);
+}
+
+/* =======================================
+   2) 입력 필드
+   ======================================= */
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    border-color: var(--borrder-color);
+    color: var(--input-text-color);
+    padding: 6px 10px;
+    border-radius: 2%;
+    /* 원하는 경우, text-align: right; 등 추가 가능 */
+}
+
+/* =======================================
+   3) 버튼 스타일
+   ======================================= */
+button {
+    /* background-color: var(--button-background-color); */
+    border-color: var(--borrder-color);
+    color: var(--button-text-color);
+
+    font-weight: 700;
+    /* 기존보다 살짝 굵게 */
+    border-radius: 2px;
+    border: 1px solid var(--borrder-color);
+    padding: 5px 5px;
+    /* 버튼 안쪽 여백 약간 증가 */
+
+    /* 조금 더 부드러운 효과 */
+    /* transition: background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        color 0.3s ease; */
+}
+
+
+button:hover {
+    /* background: var(--primary-color);
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    원하는 경우 hover 시 그림자 효과 */
+    cursor : pointer;
+}
+
+/* =======================================
+   4) 중앙 배치 컨테이너
+   ======================================= */
+.center_div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%; 
+    /* 기존 구조 유지 */
+    /* padding: 10px; */
+    /* 배경색/여백 등 추가 가능
+    background-color: var(--background-color);
+    */
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    /* display: inline-block; */
+    /* 배경색/여백 등 추가 가능
+    background-color: var(--background-color);
+    */
+}
+
+/* =======================================
+   5) 하단 버튼 컨테이너
+   ======================================= */
+.bottom_button_div {
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+
+    width: 95%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    gap: 5%;
+    /* 버튼 사이 간격을 좀 더 명시적으로 */
+}
+
+/* 한 개 버튼의 스타일 (크기 등) */
+.bottom_button {
+    width: 215px;
+    /* flex-grow: 1; */
+    height: 30px;
+    /* font-size: large; */
+    font-weight: 300;
+    /* 기존 300 유지 (버튼 태그 상단에서 700 지정했으니 필요시 조정) */
+}
+
+/* =======================================
+   6) offset 예시
+   ======================================= */
+.offset {
+    width: 40px;
+    display: inline-block;
+}
+
+/* =======================================
+   7) 제목 스타일
+   ======================================= */
+h2 {
+    margin: 10px 0 10px 0;
+    font-size: 1.2rem;
+    /* 필요 시 크기 조정 */
+    padding-left: 15px;
+}
+
+/* =======================================
+   8) 리스트 (Recipe, Motion) 스타일
+   ======================================= */
+ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    height: 100%;
+    /* 기존 구조 유지 */
+    width: 95%;
+    border: 1px solid var(--text-color);
+    border-radius: 2px;
+    overflow-y: auto;
+    /* 세로 스크롤바 표시 */
+    overflow-x: hidden;
+    /* 가로 스크롤바 숨김 */
+
+    background-color: var(--background-color);
+
+    /* 약간의 그림자 효과로 카드 느낌 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-color);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+    font-weight: 400;
+}
+
+.arrow {
+    display: inline-block;
+    /* transform 적용을 위해 inline-block 사용 */
+    transition: transform 0.3s ease;
+    /* 0.3초 동안 부드럽게 회전 애니메이션 */
+}
+
+/* 회전 상태를 나타내는 클래스 */
+.arrow.rotated {
+    transform: rotate(180deg);
+}
+
+/* 탭 컨테이너 기본 스타일 */
+.tab-container {
+    width: 100%;
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+/* 탭 버튼 영역 스타일 */
+.tab-buttons {
+    /* overflow: hidden; */
+    width: 100%;
+    display: flex;
+    /* border-bottom: 1px solid #ccc; */
+}
+
+.tab-buttons button {
+    background-color: var(--secondary-background-color);
+    border: none;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 9px;
+    width: 80px;
+    height: 30px;
+    transition: flex-grow 0.1s ease, backgroun-color 0.1s ease;
+    border-right: 1px solid var(--border-color);
+    border-radius: 0;
+    margin: 0;
+}
+
+.tab-buttons button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-buttons button.active {
+    flex-grow: 1;
+    font-size: 16px;
+    background-color: var(--background-color);
+    border-top: 2px solid var(--success-color);
+}
+
+/* 탭 콘텐츠 영역 스타일 */
+.tab-content {
+    display: flex;
+    display: none;
+    padding: 0px;
+    border: 0px solid #ccc;
+    border-top: none;
+    /* overflow: auto; */
+    height: 78%;
+    margin-bottom: 10px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.icon-button {
+    width: 28px;
+    height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    padding: 4px;
+    fill: var(--icon-base-color);
+}
+
+.icon-button:hover {
+    fill: var(--primary-color);
+}
+
+.label-btn-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: center;
+    margin-right: 10px;
+}
+
+button.icon-button svg {
+  pointer-events: none;
+  background-color: transparent;
+}
+.label-btn-container > label {
+    margin-right: 5px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+  }
+ 
+.extension-button{
+    background-color: transparent;
+    border: none;
+}
+
+
+.info {    
+    width: 24px;
+    height: 24px;
+    padding: 4px;   
+    position: absolute;
+    /* left: 10px; */
+    right: 196px;
+    fill: var(--text-color);
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.info:hover {
+    background-color: var(--primary-color);
+    fill: white;
+}
+
+.info:active {
+    transform: translate(1px, 1px);
+}

@@ -1,0 +1,442 @@
+<?xml version="1.0" ?>
+
+<robot name="delto_gripper_3f_v1">
+  <!--base-->
+  <link name="l_base">
+    <inertial>
+      <origin xyz="-0.00015585 2.2869E-07 0.041768" rpy="0.0 0.0 0.0" />
+      <mass value="0.451" />
+      <inertia ixx="0.00059833" ixy="5.5624E-09" ixz="1.4082E-05" iyy="0.00061932" iyz="2.3907E-09" izz="0.00041121" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_base.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_base_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="l_logo">
+    <inertial>
+      <origin xyz="-0.00015585 2.2869E-07 0.041768" rpy="0.0 0.0 0.0" />
+      <mass value="0.451" />
+      <inertia ixx="0.00059833" ixy="5.5624E-09" ixz="1.4082E-05" iyy="0.00061932" iyz="2.3907E-09" izz="0.00041121" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_logo.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_logo_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!--finger1-->
+  <link name="l_1_1">
+    <inertial>
+      <origin xyz="0.00037326 2.8257E-08 0.027785" rpy="0.0 0.0 0.0" />
+      <mass value="0.046" />
+      <inertia ixx="1.6561E-05" ixy="2.1499E-11" ixz="1.94E-06" iyy="1.9038E-05" iyz="1.9167E-11" izz="6.2348E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_1_1.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_1_1_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_1_1" type="revolute">
+    <origin xyz="0.0265 0.0 0.06435" rpy="0.0 0.0 0.0" />
+    <parent link="l_base" />
+    <child link="l_1_1" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.5708" upper="1.5708" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_1_2">
+    <inertial>
+      <origin xyz="0.016772 -1.9647E-05 0.0097765" rpy="0.0 0.0 0.0" />
+      <mass value="0.027" />
+      <inertia ixx="3.6522E-06" ixy="7.4653E-09" ixz="-1.1525E-06" iyy="6.3135E-06" iyz="4.8161E-09" izz="6.7871E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_1_2.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_1_2_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_1_2" type="revolute">
+    <origin xyz="-0.00115 0.0 0.04235" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_1" />
+    <child link="l_1_2" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.76278" upper="1.76278" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_1_3">
+    <inertial>
+      <origin xyz="0.01416 1.7089E-05 -0.00045525" rpy="0.0 0.0 0.0" />
+      <mass value="0.045" />
+      <inertia ixx="6.4546E-06" ixy="2.8155E-08" ixz="1.48E-07" iyy="1.4768E-05" iyz="-1.7562E-09" izz="1.6721E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_1_3.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_1_3_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_1_3" type="revolute">
+    <origin xyz="0.03258 0.0 0.02022" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_2" />
+    <child link="l_1_3" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-0.15708" upper="2.53073" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_1_4">
+    <inertial>
+      <origin xyz="0.011649 2.282E-05 -0.00022829" rpy="0.0 0.0 0.0" />
+      <mass value="0.041" />
+      <inertia ixx="5.2788E-06" ixy="1.9603E-09" ixz="-6.8785E-08" iyy="9.7596E-06" iyz="-2.8864E-10" izz="1.0708E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_1_4.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_1_4_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_1_4" type="revolute">
+    <origin xyz="0.0434 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_3" />
+    <child link="l_1_4" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.309" upper="2.02458" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_1_tip">
+    <inertial>
+      <origin xyz="0.013626 5.3509E-07 -0.00043595" rpy="0.0 0.0 0.0" />
+      <mass value="0.015" />
+      <inertia ixx="2.0371E-06" ixy="-1.8144E-10" ixz="6.6881E-08" iyy="2.7529E-06" iyz="-3.228E-11" izz="3.3786E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_1_tip.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_1_tip_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_1_tip" type="fixed">
+    <origin xyz="0.0315 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_4" />
+    <child link="l_1_tip" />
+  </joint>
+  <!--finger2-->
+  <link name="l_2_1">
+    <inertial>
+      <origin xyz="-0.00037326 -2.8257E-08 0.027785" rpy="0.0 0.0 0.0" />
+      <mass value="0.046" />
+      <inertia ixx="1.6561E-05" ixy="2.1499E-11" ixz="-1.94E-06" iyy="1.9038E-05" iyz="-1.9167E-11" izz="6.2348E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_2_1.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_2_1_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_2_1" type="revolute">
+    <origin xyz="-0.01334 0.023 0.06435" rpy="0.0 0.0 0.0" />
+    <parent link="l_base" />
+    <child link="l_2_1" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.5708" upper="0.5236" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_2_2">
+    <inertial>
+      <origin xyz="-0.016772 1.9647E-05 0.0097765" rpy="0.0 0.0 0.0" />
+      <mass value="0.027" />
+      <inertia ixx="3.6522E-06" ixy="7.4653E-09" ixz="1.1525E-06" iyy="6.3135E-06" iyz="-4.8161E-09" izz="6.7871E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_2_2.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_2_2_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_2_2" type="revolute">
+    <origin xyz="0.00115 0.0 0.04235" rpy="0.0 0.0 0.0" />
+    <parent link="l_2_1" />
+    <child link="l_2_2" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.76278" upper="1.76278" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_2_3">
+    <inertial>
+      <origin xyz="-0.01416 -1.7089E-05 -0.00045525" rpy="0.0 0.0 0.0" />
+      <mass value="0.045" />
+      <inertia ixx="6.4546E-06" ixy="2.8155E-08" ixz="-1.48E-07" iyy="1.4768E-05" iyz="1.7562E-09" izz="1.6721E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_2_3.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_2_3_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_2_3" type="revolute">
+    <origin xyz="-0.03258 0.0 0.02022" rpy="0.0 0.0 0.0" />
+    <parent link="l_2_2" />
+    <child link="l_2_3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.15708" upper="2.53073" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_2_4">
+    <inertial>
+      <origin xyz="-0.0116490931776854 -2.28204925978928E-05 -0.000228289554166247" rpy="0.0 0.0 0.0" />
+      <mass value="0.041" />
+      <inertia ixx="5.27883758261802E-06" ixy="1.96031622082635E-09" ixz="6.87851394436469E-08" iyy="9.75956230660991E-06" iyz="2.88634606625205E-10" izz="1.0708183875063E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_2_4.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_2_4_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_2_4" type="revolute">
+    <origin xyz="-0.0434 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="l_2_3" />
+    <child link="l_2_4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.309" upper="2.02458" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_2_tip">
+    <inertial>
+      <origin xyz="-0.0136261471159863 -5.35089681376333E-07 -0.000435953693300489" rpy="0.0 0.0 0.0" />
+      <mass value="0.015" />
+      <inertia ixx="2.03712498384075E-06" ixy="-1.81436575931055E-10" ixz="-6.68810446250306E-08" iyy="2.75292908141594E-06" iyz="3.22802701643936E-11" izz="3.37856998130173E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_2_tip.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_2_tip_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_2_tip" type="fixed">
+    <origin xyz="-0.0315 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="l_2_4" />
+    <child link="l_2_tip" />
+  </joint>
+  <!--finger3-->
+  <link name="l_3_1">
+    <inertial>
+      <origin xyz="0.0098 0.013827 0.015685" rpy="0.0 0.0 0.0" />
+      <mass value="0.046" />
+      <inertia ixx="1.9038E-05" ixy="-2.1499E-11" ixz="1.9167E-11" iyy="1.6561E-05" iyz="-1.94E-06" izz="6.2348E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_3_1.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_3_1_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_3_1" type="revolute">
+    <origin xyz="-0.01334 -0.023 0.06435" rpy="0.0 0.0 0.0" />
+    <parent link="l_base" />
+    <child link="l_3_1" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.5236" upper="1.5708" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_3_2">
+    <inertial>
+      <origin xyz="0.015813 -0.010447 0.011455" rpy="0 0 0" />
+      <mass value="0.027" />
+      <inertia ixx="3.6522E-06" ixy="1.1525E-06" ixz="-7.4653E-09" iyy="6.7871E-06" iyz="4.8161E-09" izz="6.3135E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_3_2.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_3_2_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_3_2" type="revolute">
+    <origin xyz="0.00115 0.0 0.04235" rpy="0.0 0.0 0.0" />
+    <parent link="l_3_1" />
+    <child link="l_3_2" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.76278" upper="1.76278" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_3_3">
+    <inertial>
+      <origin xyz="0.00734 0.015833 -0.00045525" rpy="0 0 0" />
+      <mass value="0.045" />
+      <inertia ixx="6.4546E-06" ixy="2.8155E-08" ixz="-1.48E-07" iyy="1.4768E-05" iyz="1.7562E-09" izz="1.6721E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_3_3.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_3_3_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_3_3" type="revolute">
+    <origin xyz="-0.03258 0.0 0.02022" rpy="0.0 0.0 0.0" />
+    <parent link="l_3_2" />
+    <child link="l_3_3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.15708" upper="2.53073" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_3_4">
+    <inertial>
+      <origin xyz="0.013477 0.0097717 0.019851" rpy="0 0 0" />
+      <mass value="0.041" />
+      <inertia ixx="9.7596E-06" ixy="2.8864E-10" ixz="1.9603E-09" iyy="1.0708E-05" iyz="6.8785E-08" izz="5.2788E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_3_4.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_3_4_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_3_4" type="revolute">
+    <origin xyz="-0.0434 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="l_3_3" />
+    <child link="l_3_4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.309" upper="2.02458" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_3_tip">
+    <inertial>
+      <origin xyz="-5.3509E-07 0.013626 -0.00043595" rpy="0 0 0" />
+      <mass value="0.015" />
+      <inertia ixx="2.7529E-06" ixy="1.8144E-10" ixz="3.228E-11" iyy="2.0371E-06" iyz="6.6881E-08" izz="3.3786E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/visual/l_3_tip.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="../meshes/dg3f_v1_description/collision/l_3_tip_c.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="j_dg_3_tip" type="fixed">
+    <origin xyz="-0.0315 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <parent link="l_3_4" />
+    <child link="l_3_tip" />
+  </joint>
+</robot>

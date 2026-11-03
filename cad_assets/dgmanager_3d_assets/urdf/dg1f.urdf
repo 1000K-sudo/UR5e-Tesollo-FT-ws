@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+
+<robot name="dg1f">
+  <!--links and joints-->
+  <!--base-->
+  <link name="l_base">
+    <!-- <inertial>
+      <mass value="0.451" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_BASE.STL" />
+      </geometry>
+      <material>
+        <color rgba="0.03 0.03 0.03 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_BASE.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- +++++++++++++++++++++++++++finger-1-->
+  <link name="l_1_1">
+    <!-- <inertial>
+      <mass value="0.046" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_1.STL" />
+      </geometry>
+      <material>
+        <color rgba="0.07 0.07 0.07 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!--joint outer-->
+  <joint name="j_1_1" type="revolute">
+    <origin xyz="0 0 0" rpy="0.0 0.0 0.0" />
+    <parent link="l_base" />
+    <child link="l_1_1" />
+    <axis xyz="0 0 1" />
+    <limit lower="-3.141593" upper="3.141593" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_1_2">
+    <!-- <inertial>
+      <mass value="0.027" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_2.STL" />
+      </geometry>
+      <material>
+        <color rgba="0.07 0.07 0.07 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!--joint inner-->
+  <joint name="j_1_2" type="revolute">
+    <origin xyz="0 0 0.030317" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_1" />
+    <child link="l_1_2" />
+    <axis xyz="1 0 0" />
+    <limit lower="-1.5708" upper="1.5708" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+  <link name="l_1_3">
+    <!-- <inertial>
+      <mass value="0.027" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_3.STL" />
+      </geometry>
+      <material>
+        <color rgba="0.07 0.07 0.07 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!--joint 1-->
+  <joint name="j_1_3" type="revolute">
+    <origin xyz="0 0 0.031" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_2" />
+    <child link="l_1_3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-1.5708" upper="1.5708" effort="7.644" velocity="3.141592653589793" />
+  </joint>
+
+
+  <link name="l_1_4">
+    <!-- <inertial>
+      <mass value="0.041" />
+    </inertial> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_TIP.STL" />
+      </geometry>
+      <material>
+        <color rgba="0.07 0.07 0.07 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/dg1f/L_1_TIP.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!--joint 2-->
+  <joint name="j_1_4" type="fixed">
+    <origin xyz="0 0 0.03129" rpy="0.0 0.0 0.0" />
+    <parent link="l_1_3" />
+    <child link="l_1_4" />
+    <axis xyz="0 0 1" />
+  </joint>
+</robot>
+

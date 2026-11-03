@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tools</title>
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="Settings.css" />
+    <style>
+      .header {
+        display: flex;
+        margin-bottom: 20px;
+        align-items: center;
+        padding: 0px 6px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .header svg {
+        margin-right: 0px;
+      }
+
+      /* img 스타일 명확히 재정의 */
+      .header img {
+        display: block !important;
+        width: 32px !important;
+        height: 32px !important;
+        flex-shrink: 0 !important; /* 이미지가 줄어드는 현상 방지 */
+      }
+
+      h1 {
+        position: relative;
+        border: none;
+      }
+      button :hover {
+        background-color: var(--hover-color);
+      }
+
+      svg {
+        fill: var(--icon-base-color);
+      }
+
+      
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Title -->
+      <div class="header">
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <use href="../images/icons.svg#tools" />
+        </svg>
+        <h1>Tools</h1>
+      </div>
+
+      <!-- Buttons Area -->
+      <div class="settings-group">
+        <div class="single-line">
+          <label>
+            <b>Fingertip Sensor</b>
+            <svg class="info" id="8.2.2">
+              <use href="../images/icons.svg#icon-info"></use>
+            </svg>
+          </label>
+          <button id="load-sensor-btn" style="width: 140px">DISPLAY</button>
+        </div>
+        <hr />
+
+        <div class="single-line">
+          <label>
+            <b>GPIO</b>
+            <svg class="info" id="8.2.3">
+              <use href="../images/icons.svg#icon-info"></use>
+            </svg>
+          </label>
+          <button id="load-gpio-btn" style="width: 140px">GPIO</button>
+        </div>
+        <hr />
+
+        <div class="single-line FINGER3">
+          <label>
+            <b>Experiments</b>
+            <svg class="info" id="8.2.4">
+              <use href="../images/icons.svg#icon-info"></use>
+            </svg>
+          </label>
+          <button id="experiments-btn" style="width: 140px">EXPERIMENTS</button>
+          <!-- <hr> -->
+        </div>
+
+        <hr class="FINGER3"/>
+
+        <div class="single-line">
+          <label>
+            <b>Firmware Download</b>
+            <svg class="info" id="8.2.5">
+              <use href="../images/icons.svg#icon-info"></use>
+            </svg>
+          </label>
+          <button id="load-firmware-btn" style="width: 140px">DOWNLOAD</button>
+        </div>
+
+        <hr/>
+
+        <div class="single-line">
+          <label>
+            <b>Set IP</b>
+            <svg class="info" id="8.2.6">
+              <use href="../images/icons.svg#icon-info"></use>
+            </svg>
+          </label>
+          <button id="set-ip-btn" style="width: 140px">SET IP</button>
+        </div>
+
+         <hr/>
+
+        <!-- <div class="single-line">
+          <label>
+            <b>Loop Blend</b>
+            <svg class="info" id="8.2.6">
+              <use href="../images/icons.svg#icon-info"></use>
+            </svg>
+          </label>
+          <button id="loop-blend-btn" style="width: 140px;">Loop Blend</button>
+        </div> -->
+
+      </div>
+    </div>
+
+    <script type="module" src="../../src/renderer/Tools.js"></script>
+  </body>
+</html>

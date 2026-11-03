@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot name="combine">
+  <!-- link -->
+  <link name="stick1">
+    <visual>
+      <origin xyz="0 0 -0.95"/>
+      <geometry>
+         <mesh filename="../meshes/axis.stl"/>
+      </geometry>
+      <material>
+        <color rgba="0.0 0.0 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <link name="stick2">
+    <visual>
+      <origin xyz="0 0 -0.95"/>
+      <geometry>
+         <mesh filename="../meshes/axis.stl"/>
+      </geometry>
+      <material>
+        <color rgba="0.0 1.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <link name="stick3">
+    <visual>
+      <origin xyz="0 0 -0.95"/>
+      <geometry>
+         <mesh filename="../meshes/axis.stl"/>
+      </geometry>
+      <material>
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+   <joint name = "TIP1" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0 1.57 1.57"/>
+      <parent link="stick1"/>
+      <child link="stick2"/>
+   </joint>
+   <joint name = "TIP2" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="1.57 0 1.57"/>
+      <parent link="stick1"/>
+      <child link="stick3"/>
+   </joint>
+
+</robot>

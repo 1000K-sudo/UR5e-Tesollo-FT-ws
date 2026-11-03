@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Experiment</title>
+
+	<link rel="stylesheet" href="theme.css" />
+	<link rel="stylesheet" href="Experiment.css" />
+
+</head>
+
+<body>
+    		<div id="section-experiments" style="margin-top: 10px;">
+			<h2>EXPERIMENTS</h2>
+			<label style="font-size: 11px; opacity: 0.7; transform: translateY(-10px); margin-left: 10px;">You can try out the features of the upcoming DG3F in advance.</label>
+			<div id="inhand-manipulation">
+				<div style="display: flex; gap: 4px; align-items: center;">
+					<label><b>Inhand Manipulation</b></label>
+					<svg class="info" id="8.2.4"><use href="../images/icons.svg#icon-info"></use></svg>
+				</div>
+				
+				<swiper-container class="mySwiper" pagination="true" pagination-clickable="false" slides-per-view="1" grid-rows="1" space-between="30" no-swiping="true" allow-touch-move="false">
+					<swiper-slide>
+						<label style="font-size: 16px; padding: 10px;">
+							Inhand manipulation is a technique for manipulating an object while it is grasped. Please follow the steps below to use it.
+						</label>
+					</swiper-slide>
+					<swiper-slide>
+						<label style="font-size: 14px; font-weight: 600;">Step 1</label>
+						<label style="text-align: left; text-align: left;">Grip the gripper using the [3 fingers toward the center] method.</label>
+						<button id="inhand-grasp" style="margin-top: 10px;">GRASP</button>
+					</swiper-slide>
+					<swiper-slide id="manipulation-gain">
+						<label style="font-size: 14px; font-weight: 600;">Step 2</label>
+						<label style="text-align: left; text-align: left;">Enter the value to PID gain.</label>
+						<div>
+							<label>P GAIN: <input type="number" value="3"/></label>
+							<label>D GAIN: <input type="number" value="2"/></label>
+							<label>I GAIN: <input type="number" value="0.015"/></label>
+							<label>I LIMIT: <input type="number" value="0.15"/></label>
+							<button id="inhand-gain-set">SET</button>
+						</div>
+					</swiper-slide>
+					<swiper-slide id="manipulation-pose">
+						<label style="font-size: 14px; font-weight: 600;">Step 3</label>
+						<label  style="text-align: left; text-align: left; ">Enter the value to manipulate.</label>
+						<div>
+							<label><span>X (mm)</span><input type="number" value="0" min="-50" max="50" 
+								onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+							</label>
+							<label><span>Y (mm)</span><input type="number" value="0" min="-50" max="50"
+								onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+							</label>
+							<label><span>Z (mm)</span><input type="number" value="0" min="-50" max="50"
+								onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+							</label>
+						</div>
+						<div>
+							<label><span>RX (˚)</span><input type="number" value="0" min="-360" max="360"
+								onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+							</label>
+							<label><span>RY (˚)</span><input type="number" value="0" min="-360" max="360"
+								onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+							</label>
+							<label><span>RZ (˚)</span><input type="number" value="0" min="-360" max="360"
+								onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+							</label>
+						</div>
+					</swiper-slide>
+					<swiper-slide id="manipulation-time">
+						<label style="font-size: 14px; font-weight: 600;">Step 4</label>
+						<label>Set the operation time - <input style="width: 50px;" type="number" value="1000"/> ms</label>
+					</swiper-slide>
+					<swiper-slide>
+						<!-- <label style="font-size: 14px; font-weight: 600;">Step 5</label> -->
+						<div style="width: 100%; display: flex; justify-content: center;"><button id="inhand-run" style="width: 240px; padding: 10px; font-size: 16px; font-weight: 600;">RUN</button></div>
+					</swiper-slide>
+	
+				</swiper-container>
+				<button id="prevBt" style="position: absolute; left: 12px; z-index: 50; transform: translateY(calc(-100% - 6px));" disabled>PREV</button>
+				<button id="nextBt" style="position: absolute; right: 12px; z-index: 50; transform: translateY(calc(-100% - 6px));">NEXT</button>
+			</div>
+			<hr>
+
+		<div id="moveTCP">
+			<div style="display: flex; justify-content: space-between; position: relative" ;>
+				<div style="display: flex; gap: 4px; align-items: center;">
+					<label><b>MOVE TCP</b></label>
+					<svg class="info" id="8.2.4">
+						<use href="../images/icons.svg#icon-info"></use>
+					</svg>
+				</div>
+				<div style="position: absolute;top: 50%;right: 6px;transform: translateY(calc(-50% + 4px));">
+					<button id="moveTCPGet" style="height: 40px;width: 38px;">GET</button>
+					<button id="moveTCPAll" style="height: 40px;width: 38px;">RUN</button>
+				</div>
+			</div>
+			<fieldset class='default-fieldset'>
+				<legend>
+					<label highlight-type="finger" finger-index="1"> FINGER 1 </label>
+				</legend>
+				<div>
+					<div style="flex-grow: 1;">
+						<div style="display: flex;">
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="X1" class="range-input gain" type="range"/></div> -->
+								<label>X (mm)</label>
+								<input class="tcp-input" name="X1" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="Y1" class="range-input gain" type="range"/></div> -->
+								<label>Y (mm)</label>
+								<input class="tcp-input" name="Y1" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="Z1" class="range-input gain" type="range"/></div> -->
+								<label>Z (mm)</label>
+								<input class="tcp-input" name="Z1" type="number" step="0.01" />
+							</div>
+						</div>
+						<div style="display: flex;">
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RX1" class="range-input gain" type="range"/></div> -->
+								<label>RX (˚)</label>
+								<input class="tcp-input" name="RX1" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RY1" class="range-input gain" type="range"/></div> -->
+								<label>RY (˚)</label>
+								<input class="tcp-input" name="RY1" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RZ1" class="range-input gain" type="range"/></div> -->
+								<label>RZ (˚)</label>
+								<input class="tcp-input" name="RZ1" type="number" step="0.01" />
+							</div>
+						</div>
+					</div>
+					<button id="moveTCPFinger1">RUN</button>
+				</div>
+			</fieldset>
+
+			<fieldset class='default-fieldset'>
+				<legend>
+					<label highlight-type="finger" finger-index="2"> FINGER 2 </label>
+				</legend>
+				<div>
+					<div style="flex-grow: 1;">
+						<div style="display: flex;">
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="X2" class="range-input gain" type="range"/></div> -->
+								<label>X (mm)</label>
+								<input class="tcp-input" name="X2" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="Y2" class="range-input gain" type="range"/></div> -->
+								<label>Y (mm)</label>
+								<input class="tcp-input" name="Y2" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="Z2" class="range-input gain" type="range"/></div> -->
+								<label>Z (mm)</label>
+								<input class="tcp-input" name="Z2" type="number" step="0.01" />
+							</div>
+						</div>
+						<div style="display: flex;">
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RX2" class="range-input gain" type="range"/></div> -->
+								<label>RX (˚)</label>
+								<input class="tcp-input" name="RX2" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RY2" class="range-input gain" type="range"/></div> -->
+								<label>RY (˚)</label>
+								<input class="tcp-input" name="RY2" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RZ2" class="range-input gain" type="range"/></div> -->
+								<label>RZ (˚)</label>
+								<input class="tcp-input" name="RZ2" type="number" step="0.01" />
+							</div>
+						</div>
+					</div>
+					<button id="moveTCPFinger2">RUN</button>
+				</div>
+			</fieldset>
+			<fieldset class='default-fieldset'>
+				<legend>
+					<label highlight-type="finger" finger-index="3"> FINGER 3 </label>
+				</legend>
+				<div>
+					<div style="flex-grow: 1;">
+						<div style="display: flex;">
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="X3" class="range-input gain" type="range"/></div> -->
+								<label>X (mm)</label>
+								<input class="tcp-input" name="X3" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="Y3" class="range-input gain" type="range"/></div> -->
+								<label>Y (mm)</label>
+								<input class="tcp-input" name="Y3" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="Z3" class="range-input gain" type="range"/></div> -->
+								<label>Z (mm)</label>
+								<input class="tcp-input" name="Z3" type="number" step="0.01" />
+							</div>
+						</div>
+						<div style="display: flex;">
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RX3" class="range-input gain" type="range"/></div> -->
+								<label>RX (˚)</label>
+								<input class="tcp-input" name="RX3" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RY3" class="range-input gain" type="range"/></div> -->
+								<label>RY (˚)</label>
+								<input class="tcp-input" name="RY3" type="number" step="0.01" />
+							</div>
+							<div class="rename1">
+								<!-- <div class="bubble-tooltip"><input name="RZ3" class="range-input gain" type="range"/></div> -->
+								<label>RZ (˚)</label>
+								<input class="tcp-input" name="RZ3" type="number" step="0.01" />
+							</div>
+						</div>
+					</div>
+
+					<button id="moveTCPFinger3">RUN</button>
+
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	<script type="module" src="../../src/renderer/Experiment.js"></script>
+</body>
+
+</html>

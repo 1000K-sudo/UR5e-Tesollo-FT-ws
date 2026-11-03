@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Main</title>
+	<link rel="stylesheet" href="theme.css" />
+	<link rel="stylesheet" href="choices.min.css">
+	<link rel="stylesheet" href="Dashboard.css" />
+</head>
+
+<body>
+	<!-- <div id="background"></div> -->
+	<div id="status-bar">
+		<div>
+			<label id="info-model">DG</label>
+			<label id="info-product-id" style="display:none">0F00</label>
+			<label id="info-firmware-version">0.0</label>
+			<label id="communication-period" style="display:none">0</label>
+		</div>
+		<div>
+			<label id="info-UI" style="border-style: none;">Manager version</label>
+			<label id="info-UI-version">1.6.0</label>
+		</div>
+	</div>
+	<div id="side-bar">
+		<div>
+			<button id="spy" class="side-button open-window">
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-search"></use>
+				</svg>
+			</button>
+		</div>
+		<div>
+			<button id="disconnectBtn" class="side-button">
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-link"></use>
+				</svg>
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-link-break"></use>
+				</svg>
+			</button>
+			<button id="theme" class="side-button">
+				<svg id="sun" width="24" height="24">
+					<use href="../images/icons.svg#icon-sun"></use>
+				</svg>
+				<svg id="moon" width="24" height="24" style="display:none;">
+					<use href="../images/icons.svg#icon-moon"></use>
+				</svg>
+			</button>
+			<button id="settings" class="side-button open-window">
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-setting-gear"></use>
+				</svg>
+			</button>
+			<button id="tools" class="side-button open-window">
+				<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+					<use href="../images/icons.svg#tools" />
+				</svg>
+			</button>
+			<button id="diagnose" class="side-button" style="display: none;">
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-heart"></use>
+				</svg>
+			</button>
+			<button id="info" class="side-button open-window">
+				<img width="24" height="24" src="../images/tesollo.png">
+			</button>
+		</div>
+
+	</div>
+	<div id="tag-joint">
+		<svg id="svg_1" style="display: none;" viewBox="-5 0 125 65" width="120" height="60">
+			<circle cx="5" cy="60" r="4" fill="none" stroke="var(--success-color)" stroke-width="2" />
+			<path d="M8.46 58 L40 30 L120 30" stroke="var(--success-color)" stroke-width="2" fill="none" />
+		</svg>
+		<svg id="svg_2" style="display: none;" viewBox="-5 -65 125 65" width="120" height="60">
+			<circle cx="5" cy="60" r="4" fill="none" stroke="var(--success-color)" stroke-width="2"
+				transform="scale(1, -1)" />
+			<path d="M8.46 58 L40 30 L120 30" stroke="var(--success-color)" stroke-width="2" fill="none"
+				transform="scale(1, -1)" />
+		</svg>
+		<label></label>
+		<svg id="svg_3" style="display: none;" viewBox="-5 -5 130 75" width="120" height="60">
+			<g transform="rotate(180, 60, 30)">
+				<circle cx="5" cy="60" r="4" fill="none" stroke="var(--success-color)" stroke-width="2" />
+				<path d="M8.46 58 L40 30 L120 30" stroke="var(--success-color)" stroke-width="2" fill="none" />
+			</g>
+		</svg>
+		<svg id="svg_4" style="display: none;" viewBox="-5 0 125 65" width="120" height="60">
+			<circle cx="5" cy="60" r="4" fill="none" stroke="var(--success-color)" stroke-width="2"
+				transform="scale(-1, 1) translate(-120, 0)" />
+			<path d="M8.46 58 L40 30 L120 30" stroke="var(--success-color)" stroke-width="2" fill="none"
+				transform="scale(-1, 1) translate(-120, 0)" />
+		</svg>
+	</div>
+	<urdf-viewer id="main-viewer" up="+Z" ></urdf-viewer>
+	<urdf-viewer id="orbit-viewer" up="+Z" ambient-color="#FFFFFF" no-auto-recenter="true"></urdf-viewer>
+	<label id="viewer-guide">
+		<svg width="24" height="24">
+			<use href="../images/icons.svg#icon-left-click">
+		</svg> Rotate
+		<svg width="24" height="24">
+			<use href="../images/icons.svg#icon-wheel-scroll">
+		</svg> Zoom
+	</label>
+	<input type="color" id="highlight-color" value="#FFFFFF" title="Choose a highlight color for the model" />
+	<label id="blend-progress">
+	</label>
+	<div class="right">
+		<div id="panel-state">
+			<div>
+				<!-- <button id="state-button-connection" class="highlight">Connect<div id="indicator-connection" class="indicator"></div> </button> -->
+				<button id="state-button-connection" style="display: none;" class="state-button">Connect</button>
+				<!-- <button id="state-button-control">Control <div id="indicator-system" class="indicator"></div></button> -->
+				<button id="state-button-control" class="state-button highlight">Ready</button>
+			</div>
+			<div>
+				<label>Moving <div id="indicator-moving" class="indicator"></div></label>
+				<label>Arrived <div id="indicator-arrived" class="indicator"></div></label>
+			</div>
+
+			<!-- 
+			 -->
+			<!-- <label>Connected <div id="indicator-connect" class="indicator on"></div></label>
+			<label>Moving <div id="indicator-moving" class="indicator"></div></label>
+			<label>Arrived <div id="indicator-arrived" class="indicator"></div></label> -->
+		</div>
+		<div id="panel-realtime">
+			<h3>REALTIME DATA</h3>
+			<button style="position: absolute; top: 0; right: 0; width: 40px; height: 40px; z-index: 3;" id="monitoring"
+				class="open-window extension-button">
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-open"></use>
+				</svg>
+			</button>
+			<div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+				<div class="finger FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+					<span highlight-type="finger" finger-index="1">FINGER 1</span>
+					<div highlight-type="joint" finger-index="1" joint-index="1">
+						<span class="motor-title">J1</span>
+						<span class="motor-value" id="J1_1"></span>
+					</div>
+					<div highlight-type="joint" finger-index="1" joint-index="2">
+						<span class="motor-title">J2</span>
+						<span class="motor-value" id="J1_2"></span>
+					</div>
+					<div highlight-type="joint" finger-index="1" joint-index="3">
+						<span class="motor-title">J3</span>
+						<span class="motor-value" id="J1_3"></span>
+					</div>
+					<div highlight-type="joint" finger-index="1" joint-index="4">
+						<span class="motor-title">J4</span>
+						<span class="motor-value" id="J1_4"></span>
+					</div>
+				</div>
+				<div class="finger FINGER3 FINGER4 FINGER5 FINGER2">
+					<span highlight-type="finger" finger-index="2">FINGER 2</span>
+					<div highlight-type="joint" finger-index="2" joint-index="1">
+						<span class="motor-title">J5</span>
+						<span class="motor-value" id="J2_1"></span>
+					</div>
+					<div highlight-type="joint" finger-index="2" joint-index="2">
+						<span class="motor-title">J6</span>
+						<span class="motor-value" id="J2_2"></span>
+					</div>
+					<div highlight-type="joint" finger-index="2" joint-index="3">
+						<span class="motor-title">J7</span>
+						<span class="motor-value" id="J2_3"></span>
+					</div>
+					<div highlight-type="joint" finger-index="2" joint-index="4">
+						<span class="motor-title">J8</span>
+						<span class="motor-value" id="J2_4"></span>
+					</div>
+				</div>
+				<div class="finger FINGER3 FINGER4 FINGER5">
+					<span highlight-type="finger" finger-index="3">FINGER 3</span>
+					<div highlight-type="joint" finger-index="3" joint-index="1">
+						<span class="motor-title">J9</span>
+						<span class="motor-value" id="J3_1"></span>
+					</div>
+					<div highlight-type="joint" finger-index="3" joint-index="2">
+						<span class="motor-title">J10</span>
+						<span class="motor-value" id="J3_2"></span>
+					</div>
+					<div highlight-type="joint" finger-index="3" joint-index="3">
+						<span class="motor-title">J11</span>
+						<span class="motor-value" id="J3_3"></span>
+					</div>
+					<div highlight-type="joint" finger-index="3" joint-index="4">
+						<span class="motor-title">J12</span>
+						<span class="motor-value" id="J3_4"></span>
+					</div>
+				</div>
+				<div class="finger FINGER4 FINGER5">
+					<span highlight-type="finger" finger-index="4">FINGER 4</span>
+					<div highlight-type="joint" finger-index="4" joint-index="1">
+						<span class="motor-title">J13</span>
+						<span class="motor-value" id="J4_1"></span>
+					</div>
+					<div highlight-type="joint" finger-index="4" joint-index="2">
+						<span class="motor-title">J14</span>
+						<span class="motor-value" id="J4_2"></span>
+					</div>
+					<div highlight-type="joint" finger-index="4" joint-index="3">
+						<span class="motor-title">J15</span>
+						<span class="motor-value" id="J4_3"></span>
+					</div>
+					<div highlight-type="joint" finger-index="4" joint-index="4">
+						<span class="motor-title">J16</span>
+						<span class="motor-value" id="J4_4"></span>
+					</div>
+				</div>
+				<div class="finger FINGER4 FINGER5">
+					<span highlight-type="finger" finger-index="5">FINGER 5</span>
+					<div highlight-type="joint" finger-index="5" joint-index="1">
+						<span class="motor-title">J17</span>
+						<span class="motor-value" id="J5_1"></span>
+					</div>
+					<div class="FINGER4"></div>
+					<div class="FINGER4"></div>
+					<div highlight-type="joint" finger-index="5" joint-index="2">
+						<span class="motor-title">J18</span>
+						<span class="motor-value" id="J5_2"></span>
+					</div>
+					<div highlight-type="joint" finger-index="5" joint-index="3" class="FINGER5">
+						<span class="motor-title">J19</span>
+						<span class="motor-value" id="J5_3"></span>
+					</div>
+					<div highlight-type="joint" finger-index="5" joint-index="4" class="FINGER5">
+						<span class="motor-title">J20</span>
+						<span class="motor-value" id="J5_4"></span>
+					</div>
+				</div>
+
+				<!-- <div class="finger FINGER4">
+					<span highlight-type="finger" finger-index="5">BASE</span>
+					<div highlight-type="joint" finger-index="5" joint-index="1">
+						<span class="motor-title">B1</span>
+						<span class="motor-value" id="J17"></span>
+					</div>
+					<div highlight-type="joint" finger-index="5" joint-index="2">
+						<span class="motor-title">B2</span>
+						<span class="motor-value" id="J18"></span>
+					</div>
+				</div> -->
+
+
+			</div>
+
+		</div>
+
+		<div id="panel-control">
+			<h3>CONTROLLER</h3>
+
+			<button style="position: absolute; top: 0; right: 0; width: 40px; height: 40px; z-index: 3;" id="control"
+				class="open-window extension-button">
+				<svg width="24" height="24">
+					<use href="../images/icons.svg#icon-open"></use>
+				</svg>
+			</button>
+			<div id="load-header">
+				<label class="header">Load Recipe
+					<svg class="info" id="7.2.3">
+						<use href="../images/icons.svg#icon-info"></use>
+					</svg>
+				</label>
+			</div>
+
+			<div class="panel-control-item FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+				<select id="load-gain" style="flex-grow: 1;">
+				</select>
+				<button id="gainRunBtn" class="runBtn"></button>
+			</div>
+
+			<div class="panel-control-item FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+				<select id="load-pose" style="flex-grow: 1;"></select>
+				<button id="previewBtn" class="previewBtn">
+					<svg width="24" height="24">
+						<use href="../images/icons.svg#icon-preview"></use>
+					</svg>
+				</button>
+				<button id="poseRunBtn" class="runBtn"></button>
+			</div>
+
+			<div class="panel-control-item FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+				<select id="load-blend" style="flex-grow: 1;"></select>
+				<button id="blendPreviewBtn" class="previewBtn">
+					<svg width="24" height="24">
+						<use href="../images/icons.svg#icon-preview"></use>
+					</svg>
+				</button>
+				<button id="blendRunBtn" class="runBtn"></button>
+			</div>
+
+			<div class="panel-control-item FINGER3 FINGER4 FINGER5 FINGER2">
+				<select id="load-grasp" style="flex-grow: 1;"></select>
+				<button id="graspLoadBtn" class="loadBtn"></button>
+				<button id="graspRunBtn" class="runBtn"></button>
+			</div>
+
+		</div>
+	</div>
+	<div id="overlay"></div>
+
+	<div id="loadingDialog">
+		<h3>Diagnosis in progress</h3>
+		<div class="spinner" id="diagnosis-progress">
+			<svg class="spinner-svg" viewBox="0 0 50 50">
+				<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+			</svg>
+		</div>
+
+		<p id=diagnoseLog></p>
+		<div style="display: flex; justify-content: center; margin-top:15px ">
+			<div id="logcontainer">
+				<p id=diagnoseLog></p>
+				<button id="dialogCloseBtn" style="width:100px; justify-content: center;">CLOSE</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="confirmDialog">
+		<div>
+			<label>Do you want to execute the diagnostic function?</label>
+			<br>
+			<label style="font-size:13px; color:red; font-weight:bold;">Gripper may move unexpectedly during diagnosis. Refer to the manual.</label>
+			<div style="display: flex; justify-content: center; gap:10px; margin-top:15px">
+				<button id="confirm-ok" style="width: 80px;">OK</button>
+				<button id="confirm-cancel" style="width: 80px;">CANCEL</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="toast" class="toast" style="z-index: 10000; background-color:white; color:rgba(0, 0, 0, 0.8); font-weight:bold"></div>
+	<script src="../../src/others/choices.min.js"></script>
+	<script type="module" src="../../src/renderer/Dashboard.mjs"></script>
+</body>
+
+</html>

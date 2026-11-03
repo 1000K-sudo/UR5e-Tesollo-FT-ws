@@ -1,0 +1,34 @@
+# ==============================================================================
+# Author: Kamil BENMADI
+# Email: kamil.benmadi@sigma-clermont.fr
+# GitHub: https://github.com/1000K-sudo
+# LinkedIn: https://www.linkedin.com/in/kamilb-
+# ==============================================================================
+# Git Ignore Rules for UR5e + Tesollo DG-5F + OnRobot HEX-E v2 Workspace
+# ==============================================================================
+
+# ROS 2 / CMake build & install artifacts
+build/
+install/
+log/
+sdk_tools/build/
+
+# Python byte code & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Heavy proprietary installers / archives (>100 MB)
+*.zip
+*.tar.xz
+*.asar
+*.ipch
+*.exe
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

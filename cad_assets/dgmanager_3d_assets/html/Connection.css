@@ -1,0 +1,175 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    /* outline: none; */
+    outline-color:dodgerblue;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f3f3f3;
+    overflow: hidden;
+}
+
+#background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 50%;
+    background: url('../images/dg3f.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.7;
+    z-index: -1;
+}
+
+#connection-progress {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none; /* flex <-> none 전환해서 표시*/
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 100;
+}                    
+    #connection-progress svg circle {
+        fill: none;
+        stroke-width: 10;
+        stroke-linecap: round;
+    }
+
+    /* 무한 회전 애니메이션 */
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+form {
+    position: relative;
+    width: 350px;
+    height: 360px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 8px 8px;
+    left: -20%; /* 중앙보다 왼쪽으로 배치 */
+    margin-top: 30px;
+}
+
+.tab-container {
+    position: absolute;
+    bottom: 100%;
+    display: flex;
+    width: 100%;
+    left: 0;
+}
+.tab-container > button {
+    background: #dddddd;
+    color: black;
+    border-radius: 0;
+}
+.tab-container > button:hover {
+    background: #0056b3;
+    color: white;
+}
+button.activate {
+    background: white;
+    border-top-width: 2px;
+    border-top-color: #009fff;
+    border-top-style: solid;
+}
+
+    form label {
+        display: block;
+        margin: 10px 0 5px;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    form select,
+    form input[type="text"],
+    form input[type="number"] {
+        width: 100%;
+        height: 38px;
+        padding: 10px;
+        /* margin-bottom: 10px; */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .radio-group {
+        margin: 6px 0;
+        display: flex;
+        gap: 20px;
+    }
+    .radio-group label {
+        display: flex;
+        align-items: center;
+    }
+    .radio-group input {
+        margin-right: 4px;
+    }
+
+    form button {
+        width: 100%;
+        padding: 10px;
+        background: black; /*#007BFF;*/
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    form button:hover {
+        background: #0056b3;
+    }
+.header {
+    font-size: 16px;
+    font-weight: 700;
+}
+#internal-rtu-serialport {
+    width: 0;
+    flex-grow: 1;
+}
+.icon-button {
+    width: 38px;
+    height: 38px;
+    background-color: white;
+    border: 1px outset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.selected {
+    display: block;
+}
+
+button[type="submit"]{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    width: calc(100% - 40px);
+}
+
+.ip-warning {
+    color: gray;
+    font-size: 11px;
+    font-weight: 400;
+}

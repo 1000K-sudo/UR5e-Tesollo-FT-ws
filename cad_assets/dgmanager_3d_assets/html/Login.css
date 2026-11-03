@@ -1,0 +1,79 @@
+body
+{
+    background-color: var(--background-color);
+}
+
+.login-div {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-div{
+    display: flex;
+    height: 50px;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--section-background-color);
+    margin: 10px 32px 10px 32px;
+}
+
+input[type="password"], input[type="text"]
+{
+    height: 30px;
+    font-size: medium;
+    margin: 10px;
+}
+
+button {
+	background-color: var(--button-background-color);
+	color: var(--button-text-color);
+	border: 1px outset var(--border-color);
+	border-radius: 4px;
+	padding: 8px 16px;
+	font-size: 14px;
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-10px); }
+  40%  { transform: translateX(10px); }
+  60%  { transform: translateX(-10px); }
+  80%  { transform: translateX(10px); }
+  100% { transform: translateX(0); }
+}
+
+.shake-animation {
+  animation: shake 0.5s ease; /* 0.5초 동안 흔들림, 원하시면 1s로 변경 */
+}
+
+
+.result {
+    color: rgba(255, 0, 0, 0.8);
+}
+
+.password-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.password-wrapper input {
+  padding-right: 35px; /* 버튼 공간 확보 */
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.toggle-button {
+  position: absolute;
+  height: 28px;
+  right: 10px;
+  top: 11px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0 8px;
+}

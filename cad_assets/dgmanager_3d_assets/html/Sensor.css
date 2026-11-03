@@ -1,0 +1,191 @@
+/* :root {
+    --primary-bg: #f0f4f9;
+    --panel-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #ddd;
+    --shadow: rgba(0,0,0,0.1);
+  } */
+/* @import url('./font.css'); Pretendard 폰트 임포트 */
+
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* font-family: 'Pretendard', 'Pretendard Variable'; */
+  font-family: "Segoe UI", sans-serif;
+  background: var(--background-color);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  gap: 8px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.window {
+  flex: 1 1 calc(20% - 10px);
+  height: 40%;
+  background: var(--background-color);
+  border-radius: 8px;
+  box-shadow: 0 3px 8px var(--shadow);
+  position: relative;
+}
+
+.html-section {
+  flex: 1 1 100%;
+  background: var(--secondary-background-color);
+  border-radius: 8px;
+  box-shadow: 0 3px 8px var(--shadow);
+  padding: 10px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.axis-info {
+  margin: 15px auto;
+  padding: 8px 12px;
+  background: #eef3f7;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  width: fit-content;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px; /* axis-info와 버튼 사이 간격 */
+}
+
+.axis-info .info-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.axis-info span {
+  font-weight: 700;
+  margin: 0 4px;
+}
+
+.finger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.finger:last-child {
+  border-bottom: none;
+}
+
+.finger > span {
+  flex-basis: 75px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.finger .data {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.motor-group {
+  text-align: right;
+  width: 70px;
+}
+
+.motor-title {
+  font-size: 11px;
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+.motor-value {
+  font-size: 14px;
+  font-weight: bold;
+  width: 70px;
+  color: var(--text-color);
+}
+
+button {
+  border: 1px solid var(--border-color);
+  padding: 8px 16px; /* 기존 2px 6px에서 증가 */
+  border-radius: 6px; /* 기존 2px에서 증가 */
+  background-color: var(--button-background-color);
+  box-shadow: 0 2px 4px var(--shadow); /* 기존 그림자 개선 */
+  transition: all 0.2s ease; /* 기존 0.1s에서 증가 */
+  color: var(--button-text-color);
+  font-size: 13px; /* 폰트 크기 추가 */
+  font-weight: 500; /* 폰트 굵기 추가 */
+  cursor: pointer; /* 커서 추가 */
+  min-width: 80px; /* 최소 너비 설정 */
+}
+
+button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 3px 8px var(--shadow); /* 호버 시 그림자 강화 */
+  transform: translateY(-1px); /* 살짝 위로 이동 */
+}
+
+button:active {
+  transform: translateY(0); /* 클릭 시 원래 위치 */
+  box-shadow: 0 1px 2px var(--shadow); /* 클릭 시 그림자 감소 */
+}
+
+/* 버튼 전용 스타일 추가 */
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬로 변경 */
+  margin: 0; /* 기존 margin 제거 */
+}
+
+.zero-button {
+  background: linear-gradient(135deg, #3bb54c, #5875b2);
+  color: white;
+  border: none;
+  padding: 6px 12px; /* 패딩 줄임 */
+  border-radius: 6px; /* 둥글게 */
+  font-size: 12px; /* 폰트 크기 줄임 */
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  min-width: 80px; /* 최소 너비 줄임 */
+}
+
+.zero-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  background: linear-gradient(135deg, #2ea043, #4c689a); 
+}
+
+.zero-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(79, 70, 229, 0.3);
+}
+
+.zero-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.unit {
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.6;
+}

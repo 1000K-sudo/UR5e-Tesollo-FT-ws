@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controller</title>
+  <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="Control.css" />
+</head>
+
+<body>
+  <!-- 탭 메뉴 -->
+  <div class="tabs">
+    <button class="active FINGER3 FINGER4 FINGER5 FINGER2" data-target="section-grasp">GRASP</button>
+    <button class="FINGER3 FINGER4 FINGER5 FINGER1 FINGER2" data-target="section-joint">
+      JOINT
+    </button>
+    <button class="FINGER3 FINGER4 FINGER5 FINGER1 FINGER2" data-target="section-gain">
+      GAIN
+    </button>
+    <button class="FINGER3 FINGER4 FINGER5 FINGER1 FINGER2" data-target="section-current">
+      CURRENT
+    </button>
+  </div>
+  <div class="scroll-container">
+    <div id="section-grasp" class="content FINGER3 FINGER4 FINGER5 FINGER2">
+      <h2>GRASP</h2>
+      <label>
+        <b>Grasp Control</b>
+        <svg class="info" id="6.1.2">
+          <use href="../images/icons.svg#icon-info"></use>
+        </svg>
+      </label>
+      <div id="grasp-control-panel">
+        <button id="pre-grasp">PRE-GRASP</button>
+        <button id="grasp">GRASP</button>
+        <button id="release">RELEASE</button>
+      </div>
+      <div style="height: 10px"></div>
+      <label class="FINGER3 FINGER4 FINGER5 FINGER2">
+        <b>Grasp Data</b>
+        <svg class="info" id="6.1.3">
+          <use href="../images/icons.svg#icon-info"></use>
+        </svg>
+      </label>
+      <div class="FINGER3 FINGER4 FINGER5 FINGER2" id="grasp-data-panel">
+        <!-- <legend>Grasp Data</legend> -->
+        <div style="flex-grow: 1">
+          <label class="header">Grasping Algorithm</label>
+
+          <select id="grasp-mode-3f" class="FINGER3">
+            <option value="1">3 fingers toward center</option>
+            <option value="2">2 fingers toward center(1 & 2)</option>
+            <option value="3">2 fingers toward center(1 & 3)</option>
+            <option value="4">2 fingers toward center(2 & 3)</option>
+            <option value="5">parallel grasp</option>
+            <option value="6">envelop grasp</option>
+          </select>
+
+          <select id="grasp-mode-5f" class="FINGER5">
+            <option value="21">5 fingers toward center</option>
+            <option value="22">3 fingers toward center</option>
+            <option value="23">3 fingers parallel</option>
+            <option value="24">2 fingers toward center(1 & 2)</option>
+            <option value="25">2 fingers toward center(1 & 3)</option>
+            <option value="26">2 fingers toward center(1 & 4)</option>
+            <option value="27">2 fingers toward center(1 & 5)</option>
+            <option value="28">5 fingers parallel</option>
+            <option value="29">5 fingers envelop</option>
+          </select>
+
+          <select id="grasp-mode-4f" class="FINGER4">
+            <option value="31">4 fingers toward center</option>
+            <option value="32">4 fingers parallel</option>
+            <option value="33">4 fingers envelop</option>
+            <option value="34">4 fingers right parallel</option>
+            <option value="35">4 fingers left parallel</option>
+            <option value="36">2 fingers toward center(1 & 2)</option>
+            <option value="37">2 fingers toward center(1 & 4)</option>
+            <option value="38">2 fingers toward center(3 & 4)</option>
+          </select>
+
+          <select id="grasp-mode-2f" class="FINGER2">
+            <option value="51">2 fingers toward center</option>
+            <option value="52">2 fingers envelop</option>
+          </select>
+        </div>
+
+        <div class="rename1" style="width: 64px">
+          <label class="header">Force(N)</label>
+          <!-- <div class="bubble-tooltip">
+            <input class="range-input torque" type="range" step="0.1" min="0.0" max="20.0" value="3.0" />
+          </div> -->
+          <input id="grasp-torque" name="torque" class="torque" type="number" min="0.0" max="20.0" step="0.1"
+            value="3.0" />
+        </div>
+        <div style="width: 100%; display:none" class="grasp-option">
+          <label class="header">Grasp Option</label>
+          <div style="display: flex; flex-direction: column; gap: 4px; transform: none;" class="FINGER3">
+            <div style="display: flex; gap: 4px; margin-left: 6px">
+              <label style="font-size: 14px">
+                <input type="radio" name="option" value="0" checked />None</label>
+              <label style="font-size: 14px">
+                <input type="radio" name="option" value="1" />Parallel
+                Mode</label>
+              <label style="font-size: 14px">
+                <input type="radio" name="option" value="2" />Fixed Tilt
+                Mode</label>
+            </div>
+          </div>
+          <label style="font-size: 14px; margin: 4px 6px">
+            <input id="grasp-smoothGraspingMode" type="checkbox" /> Smooth
+            Grasping Mode</label>
+        </div>
+      </div>
+      <div class="FINGER3 FINGER4 FINGER5 FINGER2 flex-column">
+        <label>
+          <b> Position Control During Grasping</b>
+          <svg class="info" id="6.1.4">
+            <use href="../images/icons.svg#icon-info"></use>
+          </svg>
+        </label>
+        <div>
+          <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER2">
+            <legend>
+              <label highlight-type="finger" finger-index="1"><input class="checkbox-input finger"
+                  type="checkbox" />FINGER 1</label>
+            </legend>
+            <label highlight-type="joint" finger-index="1" joint-index="1">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="1" joint-index="2">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="1" joint-index="3">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="1" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+          </fieldset>
+          <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER2">
+            <legend>
+              <label highlight-type="finger" finger-index="2"><input class="checkbox-input finger"
+                  type="checkbox" />FINGER 2</label>
+            </legend>
+            <label highlight-type="joint" finger-index="2" joint-index="1">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="2" joint-index="2">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="2" joint-index="3">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="2" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+          </fieldset>
+          <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5">
+            <legend>
+              <label highlight-type="finger" finger-index="3"><input class="checkbox-input finger"
+                  type="checkbox" />FINGER 3</label>
+            </legend>
+            <label highlight-type="joint" finger-index="3" joint-index="1">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="3" joint-index="2">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="3" joint-index="3">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="3" joint-index="4">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+          </fieldset>
+          <fieldset class="default-fieldset FINGER4 FINGER5">
+            <legend>
+              <label highlight-type="finger" finger-index="4"><input class="checkbox-input finger"
+                  type="checkbox" />FINGER 4</label>
+            </legend>
+            <label highlight-type="joint" finger-index="4" joint-index="1">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="4" joint-index="2">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="4" joint-index="3">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="4" joint-index="4">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+          </fieldset>
+          <fieldset class="default-fieldset FINGER4 FINGER5">
+            <legend>
+              <label highlight-type="finger" finger-index="5"><input class="checkbox-input finger"
+                  type="checkbox" />FINGER 5</label>
+            </legend>
+            <label highlight-type="joint" finger-index="5" joint-index="1">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="5" joint-index="2">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="5" joint-index="3" class="FINGER5">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+            <label highlight-type="joint" finger-index="5" joint-index="4" class="FINGER5">
+              <input class="checkbox-input motor" type="checkbox" />
+              <label style="pointer-events: none;"></label>
+            </label>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div id="section-joint" class="content FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+      <h2>JOINT</h2>
+      <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          ">
+        <div style="display: flex; gap: 4px">
+          <label><b>Joint Control</b></label>
+          <svg class="info" id="6.2.2">
+            <use href="../images/icons.svg#icon-info"></use>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+          <legend>
+            <label highlight-type="finger" finger-index="1">FINGER 1</label>
+          </legend>
+          <div highlight-type="joint" finger-index="1" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="1" joint-index="1" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="1" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="1" joint-index="1" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="1" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="1" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="1" joint-index="2" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="1" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="1" joint-index="2" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="1" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="1" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="1" joint-index="3" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="1" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="1" joint-index="3" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="1" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="1" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="1" joint-index="4" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="1" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="1" joint-index="4" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="1" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the time for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="1" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input finger time" type="number" finger-index="1" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER2">
+          <legend>
+            <label highlight-type="finger" finger-index="2">FINGER 2</label>
+          </legend>
+          <div highlight-type="joint" finger-index="2" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="2" joint-index="1" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="2" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="2" joint-index="1" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="2" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="2" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="2" joint-index="2" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="2" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="2" joint-index="2" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="2" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="2" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="2" joint-index="3" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="2" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="2" joint-index="3" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="2" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="2" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="2" joint-index="4" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="2" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="2" joint-index="4" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="2" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the time for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="2" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input finger time" type="number" finger-index="2" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5">
+          <legend>
+            <label highlight-type="finger" finger-index="3">FINGER 3</label>
+          </legend>
+          <div highlight-type="joint" finger-index="3" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="3" joint-index="1" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="3" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="3" joint-index="1" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="3" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="3" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="3" joint-index="2" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="3" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="3" joint-index="2" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="3" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="3" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="3" joint-index="3" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="3" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="3" joint-index="3" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="3" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="3" joint-index="4">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="3" joint-index="4" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="3" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="3" joint-index="4" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="3" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the time for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="3" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input finger time" type="number" finger-index="3" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="default-fieldset FINGER4 FINGER5">
+          <legend>
+            <label highlight-type="finger" finger-index="4">FINGER 4</label>
+          </legend>
+          <div highlight-type="joint" finger-index="4" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="4" joint-index="1" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="4" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="4" joint-index="1" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="4" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="4" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="4" joint-index="2" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="4" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="4" joint-index="2" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="4" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="4" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="4" joint-index="3" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="4" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="4" joint-index="3" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="4" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="4" joint-index="4">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="4" joint-index="4" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="4" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="4" joint-index="4" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="4" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the time for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="4" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input finger time" type="number" finger-index="4" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="default-fieldset FINGER4 FINGER5">
+          <legend>
+            <label highlight-type="finger" finger-index="5">FINGER 5</label>
+          </legend>
+          <div highlight-type="joint" finger-index="5" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="5" joint-index="1" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="5" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="5" joint-index="1" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="5" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="5" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="5" joint-index="2" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="5" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="5" joint-index="2" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="5" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="5" joint-index="3" class="FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="5" joint-index="3" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="5" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="5" joint-index="3" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="5" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="5" joint-index="4" class="FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input angle" type="range" finger-index="5" joint-index="4" />
+              </div>
+              <label>Degree(˚)</label>
+              <input class="number-input angle" type="number" finger-index="5" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="5" joint-index="4" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input motor time" type="number" finger-index="5" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the time for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input time" type="range" finger-index="5" />
+              </div>
+              <label>Time(ms)</label>
+              <input class="number-input finger time" type="number" finger-index="5" />
+            </div>
+          </div>
+        </fieldset>
+        <div
+          style="width: 100%;display: flex;justify-content: flex-end;position: relative;align-items: center;font-size: 12px;padding-right: 12px;">
+          <div class="bubble-tooltip">
+            <input class="range-input time" type="range" />
+          </div>
+          <label>Sync the time for all joints</label>
+          <div class="rename1">
+            <div class="bubble-tooltip">
+              <input class="range-input time" type="range" />
+            </div>
+            <label>Time(ms)</label>
+            <input class="number-input all time" type="number" />
+          </div>
+        </div>
+      </div>
+      <div style="display: none">
+        <label style="font-size: 12px; opacity: 0.8; padding: 2px 14px">※ "Time" operates the gripper using an internal
+          timer that repeats
+          every 1 ms. The operation may be affected by the specifications of
+          the PC running this program.</label>
+      </div>
+      <hr />
+      <div style="display: flex; justify-content: space-between">
+        <div style="display: flex; gap: 4px">
+          <label><b>Teaching Mode</b></label>
+          <svg class="info" id="6.2.3">
+            <use href="../images/icons.svg#icon-info"></use>
+          </svg>
+        </div>
+
+        <div style="display: inline-flex; align-items: center; gap: 10px">
+          <label><input id="teachingA" type="radio" name="teach" value="activate" />Activate</label>
+          <label><input id="teachingD" type="radio" name="teach" value="deactivate" checked />Deactivate</label>
+        </div>
+      </div>
+    </div>
+    <div id="section-gain" class="content FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+      <h2>GAIN</h2>
+      <div class="radio-group">
+        <div style="display: flex; align-items: center; gap: 4px; justify-content: space-around;">
+          <label><b>Control Mode</b></label>
+          <svg class="info" id="6.3.2">
+            <use href="../images/icons.svg#icon-info"></use>
+          </svg>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <label><input type="radio" name="controlmode" id="controlPDMode" value="pd" checked />
+            PD</label>
+          <label><input type="radio" name="controlmode" id="controlPIDMode" value="pid" /> PID</label>
+        </div>
+      </div>
+      <div class="radio-group">
+        <div style="display: flex; align-items: center; gap: 4px">
+          <label><b>Set Gain</b></label>
+          <svg class="info" id="6.3.3">
+            <use href="../images/icons.svg#icon-info"></use>
+          </svg>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <label><input type="radio" name="gain" value="p" checked /> P
+            Gain</label>
+          <label><input type="radio" name="gain" value="d" /> D Gain</label>
+          <label><input type="radio" name="gain" value="i" /> I Gain</label>
+        </div>
+      </div>
+
+      <div>
+        <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+          <legend>
+            <label highlight-type="finger" finger-index="1">FINGER 1</label>
+          </legend>
+          <div highlight-type="joint" finger-index="1" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="1" joint-index="1" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="1" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="1" joint-index="1" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="1" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="1" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="1" joint-index="2" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="1" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="1" joint-index="2" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="1" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="1" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="1" joint-index="3" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="1" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="1" joint-index="3" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="1" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="1" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="1" joint-index="4" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="1" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="1" joint-index="4" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="1" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the value for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="1" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input finger gain" type="number" finger-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="1" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input finger limit" type="number" finger-index="1" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER2">
+          <legend>
+            <label highlight-type="finger" finger-index="2">FINGER 2</label>
+          </legend>
+          <div highlight-type="joint" finger-index="2" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="2" joint-index="1" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="2" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="2" joint-index="1" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="2" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="2" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="2" joint-index="2" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="2" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="2" joint-index="2" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="2" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="2" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="2" joint-index="3" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="2" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="2" joint-index="3" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="2" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="2" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="2" joint-index="4" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="2" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="2" joint-index="4" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="2" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the value for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="2" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input finger gain" type="number" finger-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="2" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input finger limit" type="number" finger-index="2" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5">
+          <legend>
+            <label highlight-type="finger" finger-index="3">FINGER 3</label>
+          </legend>
+          <div highlight-type="joint" finger-index="3" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="3" joint-index="1" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="3" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="3" joint-index="1" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="3" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="3" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="3" joint-index="2" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="3" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="3" joint-index="2" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="3" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="3" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="3" joint-index="3" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="3" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="3" joint-index="3" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="3" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="3" joint-index="4">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="3" joint-index="4" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="3" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="3" joint-index="4" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="3" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the value for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="3" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input finger gain" type="number" finger-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="3" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input finger limit" type="number" finger-index="3" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="default-fieldset FINGER4 FINGER5">
+          <legend>
+            <label highlight-type="finger" finger-index="4">FINGER 4</label>
+          </legend>
+          <div highlight-type="joint" finger-index="4" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="4" joint-index="1" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="4" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="4" joint-index="1" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="4" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="4" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="4" joint-index="2" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="4" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="4" joint-index="2" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="4" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="4" joint-index="3">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="4" joint-index="3" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="4" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="4" joint-index="3" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="4" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="4" joint-index="4">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="4" joint-index="4" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="4" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="4" joint-index="4" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="4" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the value for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="4" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input finger gain" type="number" finger-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="4" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input finger limit" type="number" finger-index="4" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="default-fieldset FINGER4 FINGER5">
+          <legend>
+            <label highlight-type="finger" finger-index="5">FINGER 5</label>
+          </legend>
+          <div highlight-type="joint" finger-index="5" joint-index="1">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="5" joint-index="1" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="5" joint-index="1" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="5" joint-index="1" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="5" joint-index="1" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="5" joint-index="2">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="5" joint-index="2" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="5" joint-index="2" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="5" joint-index="2" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="5" joint-index="2" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="5" joint-index="3" class="FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="5" joint-index="3" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="5" joint-index="3" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="5" joint-index="3" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="5" joint-index="3" />
+            </div>
+          </div>
+          <div highlight-type="joint" finger-index="5" joint-index="4" class="FINGER5">
+            <label style="pointer-events: none;"></label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="5" joint-index="4" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input motor gain" type="number" finger-index="5" joint-index="4" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="5" joint-index="4" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input motor limit" type="number" finger-index="5" joint-index="4" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-top: 10px">Sync the value for finger joints</label>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input gain" type="range" finger-index="5" />
+              </div>
+              <label>Gain</label>
+              <input class="number-input finger gain" type="number" finger-index="5" />
+            </div>
+            <div class="rename1">
+              <div class="bubble-tooltip">
+                <input class="range-input limit" type="range" finger-index="5" />
+              </div>
+              <label>Limit</label>
+              <input class="number-input finger limit" type="number" finger-index="5" />
+            </div>
+          </div>
+        </fieldset>
+        <div style="display: flex; justify-content: flex-end; margin-right: 12px;">
+          <label style="font-size: 15px; margin-top: 10px">Sync the value for all joints
+          </label>
+          <div class="rename1">
+            <div class="bubble-tooltip">
+              <input class="range-input gain" type="range" />
+            </div>
+            <label>Gain</label>
+            <input class="number-input all gain" type="number" />
+          </div>
+          <div class="rename1">
+            <div class="bubble-tooltip">
+              <input class="range-input limit" type="range" />
+            </div>
+            <label>Limit</label>
+            <input class="number-input all limit" type="number" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="section-current" class="content FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+      <h2>CURRENT</h2>
+      <div style="display: flex; justify-content: space-between">
+        <div style="display: flex; gap: 4px">
+          <label><b>Current Control</b></label>
+          <svg class="info" id="6.4.1">
+            <use href="../images/icons.svg#icon-info"></use>
+          </svg>
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 10px">
+          <label><input id="current-control-A" type="radio" name="currentRb" value="activate" />Activate</label>
+          <label><input id="current-control-D" type="radio" name="currentRb" value="deactivate"
+              checked />Deactivate</label>
+        </div>
+      </div>
+      <div>
+        <div>
+          <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+            <legend>
+              <label highlight-type="finger" finger-index="1">FINGER 1</label>
+            </legend>
+            <div highlight-type="joint" finger-index="1" joint-index="1">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="1" joint-index="1" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="1" joint-index="1" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="1" joint-index="2">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="1" joint-index="2" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="1" joint-index="2" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="1" joint-index="3">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="1" joint-index="3" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="1" joint-index="3" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="1" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="1" joint-index="4" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="1" joint-index="4" />
+              </div>
+            </div>
+
+            <div style="width: 100%; display:flex; justify-content: flex-end;">
+              <div style="display:flex">
+                <label style="margin-top: 10px; font-size: 12px">Sync the current for finger joints</label>
+                <div class="rename1">
+                  <div class="bubble-tooltip">
+                    <input class="range-input current" type="range" finger-index="1" />
+                  </div>
+                  <label>Current(mA)</label>
+                  <input class="number-input finger current" type="number" finger-index="1" />
+                </div>
+              </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5 FINGER2">
+            <legend>
+              <label highlight-type="finger" finger-index="2">FINGER 2</label>
+            </legend>
+            <div highlight-type="joint" finger-index="2" joint-index="1">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="2" joint-index="1" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="2" joint-index="1" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="2" joint-index="2">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="2" joint-index="2" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="2" joint-index="2" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="2" joint-index="3">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="2" joint-index="3" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="2" joint-index="3" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="2" joint-index="4" class="FINGER3 FINGER4 FINGER5">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="2" joint-index="4" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="2" joint-index="4" />
+              </div>
+            </div>
+
+            <div style="width: 100%; display:flex; justify-content: flex-end;">
+              <div style="display:flex">
+                <label style="margin-top: 10px; font-size: 12px">Sync the current for finger joints</label>
+                <div class="rename1">
+                  <div class="bubble-tooltip">
+                    <input class="range-input current" type="range" finger-index="2" />
+                  </div>
+                  <label>Current(mA)</label>
+                  <input class="number-input finger current" type="number" finger-index="2" />
+                </div>
+              </div>
+
+          </fieldset>
+
+          <fieldset class="default-fieldset FINGER3 FINGER4 FINGER5">
+            <legend>
+              <label highlight-type="finger" finger-index="3">FINGER 3</label>
+            </legend>
+            <div highlight-type="joint" finger-index="3" joint-index="1">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="3" joint-index="1" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="3" joint-index="1" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="3" joint-index="2">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="3" joint-index="2" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="3" joint-index="2" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="3" joint-index="3">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="3" joint-index="3" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="3" joint-index="3" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="3" joint-index="4">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="3" joint-index="4" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="3" joint-index="4" />
+              </div>
+            </div>
+
+            <div style="width: 100%; display:flex; justify-content: flex-end;">
+              <div style="display:flex">
+                <label style="margin-top: 10px; font-size: 12px">Sync the current for finger joints</label>
+                <div class="rename1">
+                  <div class="bubble-tooltip">
+                    <input class="range-input current" type="range" finger-index="3" />
+                  </div>
+                  <label>Current(mA)</label>
+                  <input class="number-input finger current" type="number" finger-index="3" />
+                </div>
+              </div>
+
+          </fieldset>
+
+          <fieldset class="default-fieldset FINGER4 FINGER5">
+            <legend>
+              <label highlight-type="finger" finger-index="4">FINGER 4</label>
+            </legend>
+            <div highlight-type="joint" finger-index="4" joint-index="1">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="4" joint-index="1" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="4" joint-index="1" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="4" joint-index="2">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="4" joint-index="2" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="4" joint-index="2" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="4" joint-index="3">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="4" joint-index="3" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="4" joint-index="3" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="4" joint-index="4">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="4" joint-index="4" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="4" joint-index="4" />
+              </div>
+            </div>
+
+            <div style="width: 100%; display:flex; justify-content: flex-end;">
+              <div style="display:flex">
+                <label style="margin-top: 10px; font-size: 12px">Sync the current for finger joints</label>
+                <div class="rename1">
+                  <div class="bubble-tooltip">
+                    <input class="range-input current" type="range" finger-index="4" />
+                  </div>
+                  <label>Current(mA)</label>
+                  <input class="number-input finger current" type="number" finger-index="4" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="default-fieldset FINGER4 FINGER5">
+            <legend>
+              <label highlight-type="finger" finger-index="5">FINGER 5</label>
+            </legend>
+            <div highlight-type="joint" finger-index="5" joint-index="1">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="5" joint-index="1" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="5" joint-index="1" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="5" joint-index="2">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="5" joint-index="2" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="5" joint-index="2" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="5" joint-index="3" class="FINGER5">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="5" joint-index="3" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="5" joint-index="3" />
+              </div>
+            </div>
+            <div highlight-type="joint" finger-index="5" joint-index="4" class="FINGER5">
+              <label style="pointer-events: none;"></label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="5" joint-index="4" />
+                </div>
+                <label>Current (mA)</label>
+                <input class="number-input current motor" type="number" finger-index="5" joint-index="4" />
+              </div>
+            </div>
+
+            <div style="display: flex; width: 100%; justify-content: flex-end">
+              <label style="margin-top: 10px">Sync the current for finger joints</label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input current" type="range" finger-index="5" />
+                </div>
+                <label>Currnet(mA)</label>
+                <input class="number-input finger current" type="number" finger-index="5" />
+              </div>
+            </div>
+          </fieldset>
+
+          <div style="width: 100%; display:flex; justify-content: flex-end; padding-right: 12px; margin-bottom: 10px;">
+            <div style="display:flex">
+              <label style="margin-top: 10px; font-size: 14px">Sync the current for all joints</label>
+              <div class="rename1">
+                <div class="bubble-tooltip">
+                  <input class="range-input all current" type="range" />
+                </div>
+                <label>Current(mA)</label>
+                <input class="number-input all current" type="number" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <dialog id="dialog-tooltip">
+        <div id="dialog-content">
+          <h2 id="tooltip-title"></h2>
+          <button id="tooltip-goto">
+            Open Manual
+            <svg width="16" height="16">
+              <use href="../images/icons.svg#icon-open"></use>
+            </svg>
+          </button>
+          <div id="tooltip-description"></div>
+
+          <button class="cancel">OK</button>
+        </div>
+      </dialog>
+
+      <dialog id="warning-dialog">
+        <div id="dialog-content">
+          <h2 id="tooltip-title"> </h2>
+          <div id="warning-head" style="font-size: 1.2em; text-align:center; white-space:pre-line; margin-bottom:10px">
+            The input value is invalid.</div>
+          <div id="warning-description"
+            style="font-size: 1.0em; text-align:center; font-weight:400; margin-bottom:10px"></div>
+          <button class="cancel" style="font-weight: bold;">OK</button>
+        </div>
+      </dialog>
+
+      <dialog id="blend-warning-dialog">
+        <div id="dialog-content">
+          <h2 id="tooltip-title"> </h2>
+          <div id="warning-head" style="font-size: 1.2em; text-align:center; white-space:pre-line; margin-bottom:10px">
+            Control commands cannot be issued while the blend is in progress.</div>
+          <!-- <div id="warning-description"  style="font-size: 1.0em; text-align:center; font-weight:400; margin-bottom:10px"></div> -->
+          <!-- <button class="cancel" style="font-weight: bold;">OK</button> -->
+        </div>
+      </dialog>
+
+    </div>
+  </div>
+  <script type="module" src="../../src/renderer/Control.js"></script>
+</body>
+
+</html>

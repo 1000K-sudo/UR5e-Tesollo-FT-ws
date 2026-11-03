@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sensor</title>
+  <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="Sensor.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div id="canvas1" class="window"></div>
+    <div id="canvas2" class="window"></div>
+    <div id="canvas3" class="window"></div>
+    <div id="canvas4" class="window"></div>
+    <div id="canvas5" class="window"></div>
+    <div class="html-section">
+      <div class="axis-info">
+        <div class="info-text">
+          <span> Vector:</span>
+          <span style="color:red;">Force - Red</span>
+          <span style="color:blue;">Torque - Blue</span>
+          <span>Coordinate Axes:</span>
+          <span style="color:red;">X - Red</span>
+          <span style="color:green;">Y - Green</span>
+          <span style="color:blue;">Z - Blue </span>
+        </div>
+        <div class="button-container">
+          <button id="zero-btn" class="zero-button">Set Zero</button>
+        </div>
+      </div>
+
+      <div class="finger">
+        <span>FINGER 1</span>
+        <div class="data">
+          <div class="motor-group">
+            <div class="motor-title">Fx</div>
+            <span class="motor-value" id="x1">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fy</div>
+            <span class="motor-value" id="y1">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fz</div>
+            <span class="motor-value" id="z1">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tx</div>
+            <span class="motor-value" id="tx1">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Ty</div>
+            <span class="motor-value" id="ty1">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tz</div>
+            <span class="motor-value" id="tz1">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="finger">
+        <span>FINGER 2</span>
+        <div class="data">
+          <div class="motor-group">
+            <div class="motor-title">Fx</div>
+            <span class="motor-value" id="x2">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fy</div>
+            <span class="motor-value" id="y2">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fz</div>
+            <span class="motor-value" id="z2">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tx</div>
+            <span class="motor-value" id="tx2">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Ty</div>
+            <span class="motor-value" id="ty2">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tz</div>
+            <span class="motor-value" id="tz2">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="finger">
+        <span>FINGER 3</span>
+        <div class="data">
+          <div class="motor-group">
+            <div class="motor-title">Fx</div>
+            <span class="motor-value" id="x3">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fy</div>
+            <span class="motor-value" id="y3">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fz</div>
+            <span class="motor-value" id="z3">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tx</div>
+            <span class="motor-value" id="tx3">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Ty</div>
+            <span class="motor-value" id="ty3">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tz</div>
+            <span class="motor-value" id="tz3">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="finger">
+        <span>FINGER 4</span>
+        <div class="data">
+          <div class="motor-group">
+            <div class="motor-title">Fx</div>
+            <span class="motor-value" id="x4">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fy</div>
+            <span class="motor-value" id="y4">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fz</div>
+            <span class="motor-value" id="z4">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tx</div>
+            <span class="motor-value" id="tx4">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Ty</div>
+            <span class="motor-value" id="ty4">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tz</div>
+            <span class="motor-value" id="tz4">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="finger">
+        <span>FINGER 5</span>
+        <div class="data">
+          <div class="motor-group">
+            <div class="motor-title">Fx</div>
+            <span class="motor-value" id="x5">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fy</div>
+            <span class="motor-value" id="y5">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Fz</div>
+            <span class="motor-value" id="z5">0.0</span>
+            <span class="unit">N</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tx</div>
+            <span class="motor-value" id="tx5">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Ty</div>
+            <span class="motor-value" id="ty5">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+          <div class="motor-group">
+            <div class="motor-title">Tz</div>
+            <span class="motor-value" id="tz5">0.0</span>
+            <span class="unit">mNm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="../../src/renderer/Sensor.mjs"></script>
+</body>
+
+</html>

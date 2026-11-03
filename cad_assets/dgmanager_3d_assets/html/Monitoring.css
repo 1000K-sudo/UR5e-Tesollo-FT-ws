@@ -1,0 +1,278 @@
+/* --------------------------------
+   공통 스타일 (초기화 & 폰트)
+-------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    /* overflow-y: auto; */
+    font-family: Arial, Helvetica, sans-serif; /* 폰트를 좀 더 명확히 지정 */
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* --------------------------------
+   공통 버튼 스타일
+-------------------------------- */
+.btn {
+    background-color: var(--button-background-color);
+    border: none;
+    color: var(--button-text-color);
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* --------------------------------
+   탭 메뉴 스타일
+-------------------------------- */
+.tabs {
+    position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	color: white;
+	display: flex;
+	justify-content: space-around;
+	height: 30px;
+	z-index: 1000;
+}
+
+.tabs button {
+    background-color: var(--secondary-background-color);
+	border: none;
+	color: var(--text-color);
+	font-weight: 600;
+	font-size: 9px;
+	width: 80px;
+	height: 30px;
+	transition: flex-grow 0.1s ease, backgroun-color 0.1s ease;
+	border-right: 1px solid var(--border-color);
+
+    
+}
+
+.tabs button.active {
+    flex-grow: 1;
+    font-size: 16px;
+    background-color: var(--background-color);
+    border-top: 2px solid var(--success-color);
+}
+
+.tabs button:hover {
+    background-color: var(--primary-color);
+}
+
+/* --------------------------------
+   차트(Canvas) 및 컨테이너
+-------------------------------- */
+canvas {
+    display: block;
+    width: 100%;
+    max-height: 400px;
+    margin: 20px 15px 0 15px; 
+    /* 탭 메뉴가 fixed이므로 상단에 여백(60px) 추가 */
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+/* range 입력을 감싸는 DIV의 기본 여백 */
+div[style*="margin: 20px;"][style*="padding: 10px;"] {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: left; /* 혹은 center 등 원하는 정렬 */
+}
+
+/* --------------------------------
+   number input (range) 스타일
+-------------------------------- */
+input[type="number"] {
+    width: 60px;
+    height: 24px;
+    padding: 2px 4px;
+    /* margin-left: 8px; */
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--input-background-color);
+    color: var(--input-text-color);
+    text-align: right;
+    font-size: 14px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* --------------------------------
+   fieldset(손가락-관절 체크박스 영역)
+-------------------------------- */
+.default-fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 2px 2%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.default-fieldset:not(:last-child) {
+    margin-bottom: 10px;
+    padding: 4px 4px;
+}
+
+.default-fieldset legend {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0 6px;
+}
+
+/* fieldset 안쪽 label */
+.default-fieldset > label,
+.highlight-joint,
+.highlight-finger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 2px;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.highlight-joint {
+    width: calc(20%);
+    height: 16px;
+}
+
+/* 체크박스에 마우스 올렸을 때 색상 강조 */
+.default-fieldset > label:hover,
+.highlight-joint:hover,
+.highlight-finger:hover {
+    color: #007bff;
+}
+
+/* --------------------------------
+   제목들 & 기타
+-------------------------------- */
+h3 {
+    margin: 20px auto 10px auto;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+
+h5 {
+    margin: 10px 0 4px 0;
+    font-size: 16px;
+}
+
+label[for^="checkbox_F"] {
+    font-weight: normal;
+    margin-left: 6px;
+    display: flex;
+    gap: 6px;
+}
+
+/* SAVE 버튼들 정렬 */
+div[style*="display: flex;"][style*="justify-content: center;"] {
+    gap: 10px;
+    margin: 10px;
+}
+
+/* SAVE 버튼 width를 좀 더 자연스럽게 (50%씩) */
+div[style*="display: flex;"][style*="justify-content: center;"] .btn {
+    width: 30%;
+    height: 44px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="color"]{
+    width: 16px;
+    height: 16px;
+    border-style: groove;
+    border-width: 1px;
+    border-color: var(--border-color);
+    padding: 2px;
+    margin: 0;
+    border-radius: 8px;
+}
+
+input[type="color"]:disabled {
+    display: none;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+  
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+#custom-legend {
+    display: none;
+    position: absolute;
+    top: 54px;
+    right: 20px;
+    background: #ffffff32;
+    padding: 10px;
+    max-height: 200px;
+    gap: 0px 5px;
+    flex-direction: column;
+    flex-wrap: wrap-reverse;
+}
+
+#custom-legend span {
+    font-size: 10px;
+}
+
+.display-none {
+    display: none;
+}
+
+.icon-button {
+    width: 28px;
+    height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    padding: 4px;
+}
+
+.label-btn-container {
+    margin-top:  10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.button-description {
+    font-size: 12px;
+    /* margin-left: 5px; */
+}
+
+button:disabled:hover {
+    background-color: inherit;
+    cursor: not-allowed;
+  }

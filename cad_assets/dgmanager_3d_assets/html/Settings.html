@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none';"> -->
+	<title>Settings</title>
+	<link rel="stylesheet" href="theme.css" />
+	<link rel="stylesheet" href="Settings.css">
+</head>
+
+<body>
+	<h1>
+		<svg width="32" height="32">
+			<use href="../images/icons.svg#icon-setting-gear"></use>
+		</svg>
+		SETTINGS
+		<!-- <button class="apply-button">
+			<svg>
+				<use href="../images/icons.svg#icon-upload"></use>
+			</svg>
+		</button> -->
+	</h1>
+
+	<div class="content">
+		<div class="multi-line">
+			<div style="position: relative; display: flex; gap: 10px; align-items: center;">
+				<label><b>Boot Recipe</b></label>
+				<svg class="info" id="8.1.2">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+				<button class="apply-button" name="boot">
+					<svg>
+						<use href="../images/icons.svg#icon-upload"></use>
+					</svg>
+				</button>
+			</div>
+
+			<div class="init-pose-container">
+				<div>
+					<label>Pose List</label><select id="load-motion"></select>
+				</div>
+				<div>
+					<label>Gain List</label><select id="load-gain"></select>
+				</div>
+				<div class="FINGER3 FINGER4 FINGER5 FINGER2">
+					<label>Grasp List</label><select id="load-grasp"></select>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="multi-line">
+			<div style="position: relative; display: flex; gap: 10px; align-items: center;">
+				<label><b>Joint Offset</b></label>
+				<svg class="info" id="8.1.3">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+				<button class="apply-button individual" name="settings">
+					<svg>
+						<use href="../images/icons.svg#icon-upload"></use>
+					</svg>
+				</button>
+			</div>
+			<div class="content-offset FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 1</label>
+				<label class="header">J1 (˚)<input id="joint-offset1" type="number" step="0.1" min="-360" max="360"
+						placeholder="J1" /></label>
+				<label class="header">J2 (˚)<input id="joint-offset2" type="number" step="0.1" min="-360" max="360"
+						placeholder="J2" /></label>
+				<label class="header">J3 (˚)<input id="joint-offset3" type="number" step="0.1" min="-360" max="360"
+						placeholder="J3" /></label>
+				<label class="header FINGER3 FINGER4 FINGER5">J4 (˚)<input id="joint-offset4" type="number" step="0.1"
+						min="-360" max="360" placeholder="J4" /></label>
+			</div>
+			<div class="content-offset FINGER3 FINGER4 FINGER5 FINGER2">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 2</label>
+				<label class="header">J5 (˚)<input id="joint-offset5" type="number" step="0.1" min="-360" max="360"
+						placeholder="J5" /></label>
+				<label class="header">J6 (˚)<input id="joint-offset6" type="number" step="0.1" min="-360" max="360"
+						placeholder="J6" /></label>
+				<label class="header">J7 (˚)<input id="joint-offset7" type="number" step="0.1" min="-360" max="360"
+						placeholder="J7" /></label>
+				<label class="header FINGER3 FINGER4 FINGER5">J8 (˚)<input id="joint-offset8" type="number" step="0.1"
+						min="-360" max="360" placeholder="J8" /></label>
+			</div>
+			<div class="content-offset FINGER3 FINGER4 FINGER5">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 3</label>
+				<label class="header">J9 (˚)<input id="joint-offset9" type="number" step="0.1" min="-360" max="360"
+						placeholder="J9" /></label>
+				<label class="header">J10 (˚)<input id="joint-offset10" type="number" step="0.1" min="-360" max="360"
+						placeholder="J10" /></label>
+				<label class="header">J11 (˚)<input id="joint-offset11" type="number" step="0.1" min="-360" max="360"
+						placeholder="J11" /></label>
+				<label class="header">J12 (˚)<input id="joint-offset12" type="number" step="0.1" min="-360" max="360"
+						placeholder="J12" /></label>
+			</div>
+			<div class="content-offset FINGER4 FINGER5">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 4</label>
+				<label class="header">J13 (˚)<input id="joint-offset13" type="number" step="0.1" min="-360" max="360"
+						placeholder="J13" /></label>
+				<label class="header">J14 (˚)<input id="joint-offset14" type="number" step="0.1" min="-360" max="360"
+						placeholder="J14" /></label>
+				<label class="header">J15 (˚)<input id="joint-offset15" type="number" step="0.1" min="-360" max="360"
+						placeholder="J15" /></label>
+				<label class="header">J16 (˚)<input id="joint-offset16" type="number" step="0.1" min="-360" max="360"
+						placeholder="J16" /></label>
+			</div>
+			<div class="content-offset FINGER4 FINGER5">
+				<label style="margin-bottom: 4px; font-size: 14px;" id="finger5-label">FINGER 5</label>
+				<label class="header" id="finger5-j17-label">J17 (˚)<input id="joint-offset17" type="number" step="0.1"
+						min="-360" max="360" placeholder="J17" /></label>
+				<label class="header FINGER4"></label>
+				<label class="header FINGER4"></label>
+				<label class="header" id="finger5-j18-label">J18 (˚)<input id="joint-offset18" type="number" step="0.1"
+						min="-360" max="360" placeholder="J18" /></label>
+				<label class="header FINGER5" id="finger5-j19-label">J19 (˚)<input id="joint-offset19" type="number"
+						step="0.1" min="-360" max="360" placeholder="J19" /></label>
+				<label class="header FINGER5" id="finger5-j20-label">J20 (˚)<input id="joint-offset20" type="number"
+						step="0.1" min="-360" max="360" placeholder="J20" /></label>
+			</div>
+		</div>
+		<!-- <hr> -->
+		<div class="multi-line">
+			<label>
+				<b>Joint Inpose</b>
+				<svg class="info" id="8.1.4">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<div class="content-offset FINGER3 FINGER4 FINGER5 FINGER1 FINGER2">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 1</label>
+				<label class="inpose">J1 (˚)<input id="joint-inpose1" type="number" step="0.1" min="0" max="180"
+						placeholder="J1" /></label>
+				<label class="inpose">J2 (˚)<input id="joint-inpose2" type="number" step="0.1" min="0" max="180"
+						placeholder="J2" /></label>
+				<label class="inpose">J3 (˚)<input id="joint-inpose3" type="number" step="0.1" min="0" max="180"
+						placeholder="J3" /></label>
+				<label class="inpose FINGER3 FINGER4 FINGER5">J4 (˚)<input id="joint-inpose4" type="number" step="0.1"
+						min="0" max="180" placeholder="J4" /></label>
+			</div>
+			<div class="content-offset FINGER3 FINGER4 FINGER5 FINGER2">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 2</label>
+				<label class="inpose">J5 (˚)<input id="joint-inpose5" type="number" step="0.1" min="0" max="180"
+						placeholder="J5" /></label>
+				<label class="inpose">J6 (˚)<input id="joint-inpose6" type="number" step="0.1" min="0" max="180"
+						placeholder="J6" /></label>
+				<label class="inpose">J7 (˚)<input id="joint-inpose7" type="number" step="0.1" min="0" max="180"
+						placeholder="J7" /></label>
+				<label class="inpose FINGER3 FINGER4 FINGER5">J8 (˚)<input id="joint-inpose8" type="number" step="0.1"
+						min="0" max="180" placeholder="J8" /></label>
+			</div>
+			<div class="content-offset FINGER3 FINGER4 FINGER5">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 3</label>
+				<label class="inpose">J9 (˚)<input id="joint-inpose9" type="number" step="0.1" min="0" max="180"
+						placeholder="J9" /></label>
+				<label class="inpose">J10 (˚)<input id="joint-inpose10" type="number" step="0.1" min="0" max="180"
+						placeholder="J10" /></label>
+				<label class="inpose">J11 (˚)<input id="joint-inpose11" type="number" step="0.1" min="0" max="180"
+						placeholder="J11" /></label>
+				<label class="inpose">J12 (˚)<input id="joint-inpose12" type="number" step="0.1" min="0" max="180"
+						placeholder="J12" /></label>
+			</div>
+			<div class="content-offset FINGER4 FINGER5">
+				<label style="margin-bottom: 4px; font-size: 14px;">FINGER 4</label>
+				<label class="inpose">J13 (˚)<input id="joint-inpose13" type="number" step="0.1" min="0" max="180"
+						placeholder="J13" /></label>
+				<label class="inpose">J14 (˚)<input id="joint-inpose14" type="number" step="0.1" min="0" max="180"
+						placeholder="J14" /></label>
+				<label class="inpose">J15 (˚)<input id="joint-inpose15" type="number" step="0.1" min="0" max="180"
+						placeholder="J15" /></label>
+				<label class="inpose">J16 (˚)<input id="joint-inpose16" type="number" step="0.1" min="0" max="180"
+						placeholder="J16" /></label>
+			</div>
+			<div class="content-offset FINGER4 FINGER5">
+				<label style="margin-bottom: 4px; font-size: 14px;" id="finger5-inpose-label">FINGER 5</label>
+				<label class="inpose" id="finger5-inpose-j17-label">J17 (˚)<input id="joint-inpose17" type="number"
+						step="0.1" min="0" max="180" placeholder="J17" /></label>
+				<label class="inpose FINGER4"></label>
+				<label class="inpose FINGER4"></label>
+				<label class="inpose" id="finger5-inpose-j18-label">J18 (˚)<input id="joint-inpose18" type="number"
+						step="0.1" min="0" max="180" placeholder="J18" /></label>
+				<label class="inpose FINGER5" id="finger5-inpose-j19-label">J19 (˚)<input id="joint-inpose19"
+						type="number" step="0.1" min="0" max="180" placeholder="J19" /></label>
+				<label class="inpose FINGER5" id="finger5-inpose-j20-label">J20 (˚)<input id="joint-inpose20"
+						type="number" step="0.1" min="0" max="180" placeholder="J20" /></label>
+			</div>
+		</div>
+		<!-- <hr> -->
+		<div class="multi-line" style="display: none;">
+			<label>
+				<b>TCP Inpose</b>
+				<svg class="info">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<div style="display: flex; align-items: flex-end; gap: 20px; justify-content:center ">
+				<div style=" display: flex; align-items: flex-end; gap: 4px;">
+					<label style=" font-size: 12px; margin-bottom: 4px; ">Finger 1</label>
+					<label class="inpose">(mm)<input id="tcp-inpose1" type="number" step="0.1" min="0" max="100"
+							placeholder="X"></label>
+				</div>
+				<div style=" display: flex; align-items: flex-end; gap: 4px;">
+					<label style=" font-size: 12px; margin-bottom: 4px; ">Finger 2</label>
+					<label class="inpose">(mm)<input id="tcp-inpose2" type="number" step="0.1" min="0" max="100"
+							placeholder="Y"></label>
+				</div>
+				<div style=" display: flex; align-items: flex-end; gap: 4px;">
+					<label style=" font-size: 12px; margin-bottom: 4px; ">Finger 3</label>
+					<label class="inpose">(mm)<input id="tcp-inpose3" type="number" step="0.1" min="0" max="100"
+							placeholder="Z"></label>
+				</div>
+			</div>
+		</div>
+		<!-- <hr> -->
+		<div class="multi-line" style="display: none;">
+			<label>
+				<b>Orientation Inpose</b>
+				<svg class="info">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<div style="display: flex; align-items: flex-end; gap: 20px; justify-content:center ">
+				<div style=" display: flex; align-items: flex-end; gap: 4px;">
+					<label style=" font-size: 12px; margin-bottom: 4px; ">Finger 1</label>
+					<label class="inpose">(˚)<input id="orientation-inpose1" type="number" step="0.1" min="0" max="100"
+							placeholder="RX"></label>
+				</div>
+				<div style=" display: flex; align-items: flex-end; gap: 4px;">
+					<label style=" font-size: 12px; margin-bottom: 4px; ">Finger 2</label>
+					<label class="inpose">(˚)<input id="orientation-inpose2" type="number" step="0.1" min="0" max="100"
+							placeholder="RY"></label>
+				</div>
+				<div style=" display: flex; align-items: flex-end; gap: 4px;">
+					<label style=" font-size: 12px; margin-bottom: 4px; ">Finger 3</label>
+					<label class="inpose">(˚)<input id="orientation-inpose3" type="number" step="0.1" min="0" max="100"
+							placeholder="RZ"></label>
+				</div>
+			</div>
+		</div>
+		<!-- <hr> -->
+		<div class="single-line">
+			<label>
+				<b>Moving Inpose</b>
+				<svg class="info" id="8.1.5">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<div>
+				<div class="input-item">
+					<label>Inpose (˚)</label>
+					<input id="moving-inpose" type="number" min="0" max="180" step="0.1" placeholder="inPose" />
+				</div>
+			</div>
+		</div>
+
+		<hr>
+		<div class="single-line">
+			<label>
+				<b>Low Pass Filter</b>
+				<svg class="info" id="8.1.6">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<div>
+				<div class="input-item">
+					<label>ON/OFF</label>
+					<input class="lowPassFilter" type="checkbox" id="lowpass-filter-checkbox">
+				</div>
+				<div class="input-item">
+					<label>Alpha</label>
+					<input class="lowPassFilter" id="lowpass-filter-input" type="number" min="0.0" max="1.0" value="0.0"
+						step="0.01">
+				</div>
+			</div>
+		</div>
+
+		<hr>
+		<div class="single-line" style="padding-bottom: 14px;" id="torque-limit-container">
+			<label>
+				<b>Torque Limit Mode</b>
+				<svg class="info" id="8.1.7">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<div>
+				<div class="input-item">
+					<label>ON/OFF</label>
+					<input class="lowPassFilter" type="checkbox" id="torque-limit-checkbox" checked>
+				</div>
+			</div>
+		</div>
+		<hr id="torque-limit-hr" style="display: none;">
+
+		<div class="single-line" style="padding-bottom: 14px; display: none;">
+			<label>
+				<b>Fingertip Sensor</b>
+				<svg class="info" id="8.2.2">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<button id="load-sensor-btn" style="width:140px">DISPLAY</button>
+		</div>
+		<!-- <hr> -->
+		<div class="single-line" style="padding-bottom: 14px; display: none;">
+			<label>
+				<b>GPIO</b>
+				<svg class="info" id="8.2.3">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<button id="load-gpio-btn" style="width:140px">GPIO</button>
+		</div>
+		<!-- <hr> -->
+
+
+		<div class="single-line" style=" padding-bottom: 14px; display: none;">
+			<label>
+				<b>Experiments</b>
+				<svg class="info">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<button id="experiments-btn" style="width:140px">EXPERIMENTS</button>
+		</div>
+
+
+
+		<!-- <hr> -->
+		<div class="single-line" style="padding-bottom: 14px; display: none;">
+			<label>
+				<b>Firmware Download</b>
+				<svg class="info" id="8.2.5">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<button id="load-firmware-btn" style="width:140px">DOWNLOAD</button>
+		</div>
+
+
+		<!-- <hr> -->
+
+		<div class="single-line" style="padding-bottom: 14px;">
+			<label>
+				<b id="export-settings-title">Backup Settings</b>
+				<svg class="info" id="8.1.8">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<button id="export-settings-btn" class="bottom-button">BACKUP SETTINGS</button>
+		</div>
+
+		<hr>
+
+		<div class="single-line" style="padding-bottom: 14px;">
+			<label>
+				<b id="restore-settings-title">Restore Settings</b>
+				<svg class="info" id="8.1.9">
+					<use href="../images/icons.svg#icon-info"></use>
+				</svg>
+			</label>
+			<button id="restore-settings-btn" class="bottom-button">RESTORE SETTINGS</button>
+		</div>
+
+		<script type="module" src="../../src/renderer/Settings.js"></script>
+</body>
+
+</html>

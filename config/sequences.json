@@ -1,0 +1,22 @@
+[
+  {
+    "type": "GOTO_POSE",
+    "target": "wait",
+    "duration": 2.0
+  },
+  {
+    "type": "GOTO_POSE",
+    "target": "check_begin",
+    "duration": 2.0
+  },
+  {
+    "type": "GOTO_POSE",
+    "target": "check_end",
+    "duration": 2.0
+  },
+  {
+    "type": "GOTO_POSE",
+    "target": "check_more",
+    "duration": 2.0
+  }
+]

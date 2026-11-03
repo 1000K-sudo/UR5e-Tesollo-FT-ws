@@ -1,0 +1,38 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>login</title>
+  <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="Login.css" />
+</head>
+
+<body>
+  <div class="login-div">
+
+    <form id="loginForm" style="text-align: center">
+      <div class="password-wrapper">
+        <input type="password" id="password" placeholder="password" />
+        <button type="button" onclick="togglePassword(this)" class="toggle-button">
+          <svg width="24" height="24">
+            <use href="../images/icons.svg#icon-preview"></use>
+          </svg>
+        </button>
+      </div>
+      <button type="submit">submit</button>
+    </form>
+  </div>
+  <div class="result-div">
+    <label id="result" class="result" style="font-size: 13px; font-weight: bold;"></label>
+  </div>
+  <div style="padding:20px 20px 0px 20px">
+    <label id="info-txt" class="info-txt" style="font-size: 13px; font-weight: bold; color:rgba(255, 0, 0, 0.8)">
+      Incorrect file or connection may cause malfunction. Refer to the manual.<br>
+      For password help, contact: <u>support@tesollo.com</u>
+  </div>
+  <script src="../../src/renderer/Login.js"></script>
+</body>
+
+</html>

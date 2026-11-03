@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="Warning.css" />
+    <title>Warning</title>
+  </head>
+  <body>
+    <div class="header">
+      <svg><use href="../images/icons.svg#icon-warning"></use></svg>
+    </div>
+    <div class="container">
+      
+      <div class="h2-div">
+        <h2>ERROR</h2>
+        <svg class="info" id="Appendix 2"><use href="../images/icons.svg#icon-info"></use></svg>
+      </div>
+      <div>
+        <label class="title">Function: </label
+        ><label id="origin" class="value"></label>
+      </div>
+      <br>
+      <div>
+        <label class="title">Code: </label
+        ><label id="error" class="value"></label>
+      </div>
+      <br>
+      <div>
+        <label class="title">Error: </label
+        ><label id="error-name" class="value"></label>
+      </div>
+
+      <button onclick="window.close()">OK</button>
+    </div>
+    <script type="module" src="../../src/renderer/Warning.js"></script>
+  </body>
+</html>

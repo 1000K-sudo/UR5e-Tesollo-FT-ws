@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Manager</title>
+  <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="Manager.css" />
+</head>
+
+<body>
+  <!-- 탭 버튼 영역 (기존 클래스명 사용) -->
+  <div class="tab-container">
+    <button class="tab-btn active" data-tab-target="#poseTab" id="recipe-settings-btn">Pose</button>
+    <button class="tab-btn" data-tab-target="#gainTab" id="gain-settings-btn">Gain</button>
+    <button class="tab-btn" data-tab-target="#graspTab" id="grasp-settings-btn">Grasp</button>
+    <button class="tab-btn" data-tab-target="#blendTab" id="blend-settings-btn">Blend</button>
+  </div>
+
+  <!-- 탭 콘텐츠를 묶는 컨테이너 -->
+  <div class="tab-content-container">
+    <!-- Pose 탭 콘텐츠 -->
+    <div id="poseTab" class="tab-content active">
+      <div class="section">
+        <h2>Create Pose Recipe</h2>
+        <div class="form-group">
+          <label for="recipe-name">Recipe Number:</label>
+          <input type="number" id="recipe-name" placeholder="1 (1 ~ 100)" min="1" max="100" />
+        </div>
+        <div class="form-group">
+          <label for="target-values" id="target-label">Target Joint:</label>
+          <input type="text" id="target-values" placeholder="10.0,20.0,30.0 ... (deg)" disabled />
+        </div>
+        <div class="form-group">
+          <label for="motion-time" id="motion-time-label">Joint Motion Time:</label>
+          <input type="text" id="motion-time" placeholder="1,1,1 .... (ms)" disabled />
+        </div>
+        <div class="form-group" style="margin-top:10px; justify-content: flex-end; gap:5px;">
+          <button id="get-current-position-btn" style="margin: 0; width:150px; height:70px">GET CURRENT POSE</button>
+          <button id="get-target-position-btn" style="margin: 0; width:150px; height:70px">GET TARGET POSE</button>
+          <button id="add-recipe-btn" style="margin: 0; width:150px; height:70px">ADD POSE RECIPE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gain 탭 콘텐츠 -->
+    <div id="gainTab" class="tab-content">
+      <div class="section">
+        <h2>Create Gain Recipe</h2>
+        <div class="form-group">
+          <label for="gain-recipe-name">Recipe Number:</label>
+          <input type="number" id="gain-recipe-number" placeholder="1" min="1" max="20" />
+        </div>
+        <div class="form-group">
+          <label for="pid-type">PD/PID Control:</label>
+          <select id="pid-type" disabled>
+            <option value="PD">PD</option>
+            <option value="PID">PID</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="p-gain" id="p-gain-label">P Gain:</label>
+          <input type="text" id="p-gain" placeholder="1.0, 1.0, 1.0 ..." disabled />
+        </div>
+        <div class="form-group">
+          <label for="d-gain" id="d-gain-label">D Gain:</label>
+          <input type="text" id="d-gain" placeholder="1.0, 1.0, 1.0 ..." disabled />
+        </div>
+        <div class="form-group">
+          <label for="i-gain" id="i-gain-label">I Gain:</label>
+          <input type="text" id="i-gain" placeholder="1.0, 1.0, 1.0 ..." disabled />
+        </div>
+        <div class="form-group">
+          <label for="i-max" id="i-max-label">I Limit:</label>
+          <input type="text" id="i-max" placeholder="1.0, 1.0, 1.0 ..." disabled />
+        </div>
+        <div class="form-group" style="margin-top:10px; justify-content: flex-end; gap: 10px;">
+          <button id="get-current-gain-btn" style="margin: 0">GET CURRENT GAIN</button>
+          <button id="add-gain-recipe-btn" style="margin: 0">ADD GAIN RECIPE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grasp 탭 콘텐츠 -->
+    <div id="graspTab" class="tab-content">
+      <div class="section">
+        <h2>Create Grasp Recipe</h2>
+        <div class="form-group">
+          <label for="grasp-force" id="grasp-recipe-number">Recipe Number:</label>
+          <input type="number" id="grasp-recipe-number-input" placeholder="1" min="1" max="20" />
+        </div>
+        <div class="form-group">
+          <label for="grasp-force" id="grasp-force-label">Grasp Force:</label>
+          <input type="number" id="grasp-force" placeholder="1" min="1" max="20" disabled />
+        </div>
+        <div class="form-group">
+          <label for="position-mode" id="position-mode-label">Position Mode:</label>
+          <input type="text" id="grasp-position-mode" placeholder="1" disabled />
+        </div>
+        <div class="form-group">
+          <label for="grasp-mode" id="grasp-mode-label">Grasping Algorithm:</label>
+          <!-- <input type="text" id="grasp-mode" placeholder="1" disabled /> -->
+          <select id="grasp-mode" disabled>
+            <option value="1">3 fingers toward center</option>
+            <option value="2">2 fingers toward center(1 & 2)</option>
+            <option value="3">2 fingers toward center(1 & 3)</option>
+            <option value="4">2 fingers toward center(2 & 3)</option>
+            <option value="5">parallel grasp</option>
+            <option value="6">envelop grasp</option>
+
+            <option value="21">5 fingers toward center</option>
+            <option value="22">3 fingers toward center</option>
+            <option value="23">3 fingers parallel</option>
+            <option value="24">2 fingers toward center(1 & 2)</option>
+            <option value="25">2 fingers toward center(1 & 3)</option>
+            <option value="26">2 fingers toward center(1 & 4)</option>
+            <option value="27">2 fingers toward center(1 & 5)</option>
+            <option value="28">5 fingers parallel</option>
+            <option value="29">5 fingers envelop</option>
+
+            <option value="31">4 fingers toward center</option>
+            <option value="32">4 fingers parallel</option>
+            <option value="33">4 fingers envelop</option>
+            <option value="34">4 fingers right parallel</option>
+            <option value="35">4 fingers left parallel</option>
+            <option value="36">2 fingers toward center(1 & 2)</option>
+            <option value="37">2 fingers toward center(1 & 4)</option>
+            <option value="38">2 fingers toward center(3 & 4)</option>
+
+            <option value="51">2 fingers toward center</option>
+            <option value="52">2 fingers envelop</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: none;">
+          <label for="grasp-option" id="grasp-option-label">Grasp Option:</label>
+          <select id="grasp-option" disabled>
+            <option value="-1">None</option>
+            <option value="0">Blind Mode</option>
+            <option value="1">Parallel Mode</option>
+            <option value="2">Fixed Tilt Mode</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: none;">
+          <label for="smooth-mode" id="smooth-mode-label">Smooth Mode:</label>
+          <!-- <input type="text" id="smooth-mode" placeholder="1" disabled /> -->
+          <select id="smooth-mode" disabled>
+            <option value="-1">None</option>
+            <option value="1">ON</option>
+            <option value="0">OFF</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-top:10px; justify-content: flex-end;">
+          <button id="get-current-grasp-btn" style="margin: 0">GET CURRENT GRASP</button>
+          <button id="add-grasp-recipe-btn" style="margin: 0">ADD GRASP RECIPE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blend 탭 콘텐츠 -->
+    <div id="blendTab" class="tab-content">
+      <div class="section">
+        <h2>Create New Blend</h2>
+        <div class="form-group">
+          <label for="motion-name">Recipe Number:</label>
+          <input type="number" id="motion-name" placeholder="1" min="1" max="10" />
+        </div>
+        <div style="margin-top: 15px;"></div>
+        <p><strong>Select Recipe Data</strong></p>
+        <div class="form-group">
+          <select id="pose-select" size="10" class="gain-select"></select>
+          <select id="gain-select" size="10" class="gain-select"></select>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="gain-recipe-name">Blend Wait Time:</label>
+          <input type="number" id="blend-wait-time" placeholder="1 (0 ~ 30000)" value="0" max="30000" min="0"
+            onchange="if (Number(this.value) > Number(this.max)) this.value = this.max; if(Number(this.value) < Number(this.min)) this.value=this.min" />
+        </div>
+        <br />
+        <div style="margin-top: 15px;"></div>
+        <div class="form-group">
+          <button id="add-recipe-to-motion-btn">ADD SELECTED RECIPE</button>
+          <button id="clear-list-btn" style="margin-right: 0">CLEAR ADD LIST</button>
+        </div>
+        <div class="motion-list" id="motion-recipes-container">
+          <!-- Recipe list 표시 영역 -->
+        </div>
+        <button id="save-motion-btn">SAVE BLEND RECIPE</button>
+      </div>
+    </div>
+  </div>
+  <!-- Dialog -->
+  <dialog id="dialog">
+    <p id="dialog-message"></p>
+    <div class="dialog-buttons">
+      <button id="dialog-ok-btn" class="ok">OK</button>
+      <button id="dialog-close-btn" class="cancel">CLOSE</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="../../src/renderer/Manager.js"></script>
+</body>
+
+</html>

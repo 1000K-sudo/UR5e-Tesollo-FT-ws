@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loop Blend Motion</title>
+  <link rel="stylesheet" href="loopBlend.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Loop Blend Motion</h1>
+    <label id="totaltimeLabel" for="totalTime">Total Time (seconds):</label>
+    <label id="totalTime">0</label>
+    <label id="cyclelabel" for="cycleTime">Cycle Number :</label>
+    <label id="cycleTime">0</label>
+    <label for="blendSequence">Blend Sequence (e.g., 1,2,3):</label>
+    <input type="text" id="blendSequence" placeholder="Enter blend sequence" value="1,2,3,4,5">
+    
+    <label for="blendWait">Blend wait (e.g., 1,0,1):</label>
+    <input type="text" id="blendWait" placeholder="Enter blend sequence" value="5,5,5,5,5">
+
+    <label for="blendTimes">Number of Iterations (Leave blank for infinite):</label>
+    <input type="number" id="blendTimes" placeholder="Infinite">
+    
+    <button id="startLoop">Start Loop</button>
+    <button id="stopLoop">Stop Loop</button>
+    
+    <div id="status">Status: Idle</div>
+    <div id="currentBlend">Current Blend: None</div>
+  </div>
+  <script type="module" src="../../src/renderer/loopBlend.js"></script>
+</body>
+</html>

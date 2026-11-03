@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur3e">
+
+  <xacro:arg name="name" default="ur3e"/>
+  <xacro:arg name="tf_prefix" default="" />
+  <xacro:arg name="sim_ignition" default="false" />
+  <xacro:arg name="simulation_controllers" default="$(find ur3e_sim_launch)/config/ur_controllers.yaml" />
+  <xacro:arg name="initial_positions_file" default="$(find ur_description)/config/initial_positions.yaml"/>
+
+  <!-- UR Driver Arguments -->
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:arg name="script_filename" default=""/>
+  <xacro:arg name="input_recipe_filename" default=""/>
+  <xacro:arg name="output_recipe_filename" default=""/>
+  <xacro:arg name="headless_mode" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_parity" default="0"/>
+  <xacro:arg name="tool_baud_rate" default="115200"/>
+  <xacro:arg name="tool_stop_bits" default="1"/>
+  <xacro:arg name="tool_rx_idle_chars" default="1.5"/>
+  <xacro:arg name="tool_tx_idle_chars" default="3.5"/>
+  <xacro:arg name="tool_device_name" default="/tmp/ttyUR"/>
+  <xacro:arg name="tool_tcp_port" default="54321"/>
+  <xacro:arg name="reverse_ip" default="0.0.0.0"/>
+  <xacro:arg name="script_command_port" default="50004"/>
+  <xacro:arg name="reverse_port" default="50001"/>
+  <xacro:arg name="script_sender_port" default="50002"/>
+  <xacro:arg name="trajectory_port" default="50003"/>
+
+  <xacro:property name="is_sim_ignition" value="$(arg sim_ignition)"/>
+
+  <link name="world" />
+
+  <link name="base_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/base.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/base.stl"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="base_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <link name="base_link_inertia">
+    <inertial>
+      <mass value="2.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.002"/>
+    </inertial>
+  </link>
+
+  <joint name="base_link_to_inertia_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_link_inertia"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="shoulder_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/shoulder.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/shoulder.stl"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.008" ixy="0" ixz="0" iyy="0.008" iyz="0" izz="0.005"/>
+    </inertial>
+  </link>
+  
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="base_link_inertia"/>
+    <child link="shoulder_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.152"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="330" lower="-6.28" upper="6.28" velocity="3.14"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="upper_arm_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/upperarm.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/upperarm.stl"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="3.42"/>
+      <origin rpy="0 0 0" xyz="0 0 0.12"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <origin rpy="0 1.5707 0" xyz="0 0.12 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="330" lower="-6.28" upper="6.28" velocity="3.14"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="forearm_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/forearm.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/forearm.stl"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="1.43"/>
+      <origin rpy="0 0 0" xyz="0 0 0.12"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.003"/>
+    </inertial>
+  </link>
+
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <origin rpy="0 0 0" xyz="0 -0.093 0.244"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="150" lower="-3.14" upper="3.14" velocity="3.14"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="wrist_1_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/wrist1.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/wrist1.stl"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.87"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.002"/>
+    </inertial>
+  </link>
+
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
+    <origin rpy="0 1.5707 0" xyz="0 0 0.213"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="54" lower="-6.28" upper="6.28" velocity="6.28"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="wrist_2_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/wrist2.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/wrist2.stl"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.87"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.002"/>
+    </inertial>
+  </link>
+
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
+    <origin rpy="0 0 0" xyz="0 0.085 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="54" lower="-6.28" upper="6.28" velocity="6.28"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="wrist_3_link">
+    <visual>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/visual/wrist3.dae"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="package://ur_description/meshes/ur3e/collision/wrist3.stl"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.35"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link"/>
+    <child link="wrist_3_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.085"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="54" lower="-6.28" upper="6.28" velocity="6.28"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="ft_frame"/><link name="flange"/><link name="tool0"/><link name="base"/>
+  <joint name="wrist_3_link-ft_frame" type="fixed"><parent link="wrist_3_link"/><child link="ft_frame"/><origin rpy="3.14159 0 0" xyz="0 0 0"/></joint>
+  <joint name="base_link-base_fixed_joint" type="fixed"><origin rpy="0 0 3.14159" xyz="0 0 0"/><parent link="base_link"/><child link="base"/></joint>
+  <joint name="wrist_3-flange" type="fixed"><parent link="wrist_3_link"/><child link="flange"/><origin rpy="0 -1.5707 -1.5707" xyz="0 0 0"/></joint>
+  <joint name="flange-tool0" type="fixed"><origin rpy="1.5707 0 1.5707" xyz="0 0 0"/><parent link="flange"/><child link="tool0"/></joint>
+
+  <!-- OnRobot 2FG7 Gripper -->
+  <!-- Body ~60x60x100mm + fingers extend laterally -->
+  <!-- Rotated 90deg around X so the two fingers are perpendicular to the ground in Home Position -->
+  <link name="onrobot_2fg7_base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
+      <geometry>
+        <!-- Body of the 2FG7: 60mm wide, 60mm deep, 100mm tall -->
+        <box size="0.060 0.100 0.060"/>
+      </geometry>
+      <material name="black"><color rgba="0.1 0.1 0.1 1"/></material>
+    </visual>
+    <collision>
+      <!-- Conservative bounding box covering body + finger travel (max opening ~76mm) -->
+      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
+      <geometry>
+        <box size="0.076 0.130 0.060"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.1"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0020" ixy="0" ixz="0" iyy="0.0020" iyz="0" izz="0.0010"/>
+    </inertial>
+  </link>
+
+  <joint name="onrobot_2fg7_joint" type="fixed">
+    <parent link="tool0"/>
+    <child link="onrobot_2fg7_base_link"/>
+    <!-- Offset from flange face: 5cm down Z (into gripper body) -->
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  </joint>
+
+  <xacro:if value="${is_sim_ignition}">
+    <!-- Intel RealSense D435 Camera - Dimensions: 90x25x25mm -->
+    <!-- Mounted on the SIDE of the wrist (not above) -->
+    <link name="camera_link">
+      <visual>
+        <!-- Camera oriented so its 90mm length runs along Y (width of wrist) -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <!-- X=depth(25mm), Y=width(90mm), Z=height(25mm) -->
+          <box size="0.025 0.090 0.025"/>
+        </geometry>
+        <material name="silver"><color rgba="0.8 0.8 0.8 1"/></material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.025 0.090 0.025"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="camera_joint" type="fixed">
+      <parent link="wrist_3_link"/>
+      <child link="camera_link"/>
+      <!-- Camera on the SIDE: offset along X (lateral), lens pointing forward (Z) -->
+      <!-- rpy: pitched down 90deg so the lens faces forward in Home Position -->
+      <origin xyz="0.06 0 0" rpy="0 -1.5707 0"/>
+    </joint>
+
+    <!-- Gazebo Sensor config for Realsense D435 -->
+    <gazebo reference="camera_link">
+      <sensor name="camera" type="rgbd_camera">
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <!-- Forcing max resolution for RealSense D435 -->
+          <image><width>1920</width><height>1080</height><format>R8G8B8</format></image>
+          <clip><near>0.1</near><far>10</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>camera/image_raw</topic>
+        <gz_frame_id>camera_link</gz_frame_id>
+      </sensor>
+    </gazebo>
+  </xacro:if>
+
+  <ros2_control name="ur3e" type="system">
+    <hardware>
+      <xacro:if value="${is_sim_ignition}">
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </xacro:if>
+      <xacro:unless value="${is_sim_ignition}">
+        <plugin>ur_robot_driver/URPositionHardwareInterface</plugin>
+        <param name="robot_ip">$(arg robot_ip)</param>
+        <param name="script_filename">$(arg script_filename)</param>
+        <param name="output_recipe_filename">$(arg output_recipe_filename)</param>
+        <param name="input_recipe_filename">$(arg input_recipe_filename)</param>
+        <param name="headless_mode">$(arg headless_mode)</param>
+        <param name="tool_voltage">$(arg tool_voltage)</param>
+        <param name="tool_parity">$(arg tool_parity)</param>
+        <param name="tool_baud_rate">$(arg tool_baud_rate)</param>
+        <param name="tool_stop_bits">$(arg tool_stop_bits)</param>
+        <param name="tool_rx_idle_chars">$(arg tool_rx_idle_chars)</param>
+        <param name="tool_tx_idle_chars">$(arg tool_tx_idle_chars)</param>
+        <param name="tool_device_name">$(arg tool_device_name)</param>
+        <param name="tool_tcp_port">$(arg tool_tcp_port)</param>
+        <param name="reverse_ip">$(arg reverse_ip)</param>
+        <param name="script_command_port">$(arg script_command_port)</param>
+        <param name="reverse_port">$(arg reverse_port)</param>
+        <param name="script_sender_port">$(arg script_sender_port)</param>
+        <param name="trajectory_port">$(arg trajectory_port)</param>
+      </xacro:unless>
+    </hardware>
+    <joint name="shoulder_pan_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="shoulder_lift_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">-1.57</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="elbow_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="wrist_1_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">-1.57</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="wrist_2_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+    <joint name="wrist_3_joint"><command_interface name="position"/><state_interface name="position"><param name="initial_value">0.0</param></state_interface><state_interface name="velocity"/></joint>
+  </ros2_control>
+
+  <xacro:if value="${is_sim_ignition}">
+    <gazebo>
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(arg simulation_controllers)</parameters>
+        <controller_manager_node_name>controller_manager</controller_manager_node_name>
+      </plugin>
+    </gazebo>
+  </xacro:if>
+</robot>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firmware Downloader</title>
+  <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="Firmware.css" />
+</head>
+<body>
+  <!-- 파일 업로드 영역 -->
+  <div id="uploadSection" class="container" >
+    <button id="firmwareFileBtn">LOAD FILE</button>
+    <button id="uploadBtn" disabled>FIRMWARE DOWNLOAD</button>
+  </div>
+
+  <!-- 로딩 화면 (초기에는 숨김 처리) -->
+  <div id="loadingScreen" class="container" style="display:none;">
+    <p>
+    Connecting to update server.<br>
+    Please wait a moment.<br>
+    (This may take up to 10 seconds.)
+  </p>
+  </div>
+
+  <!-- 펌웨어 업데이트 버튼 -->
+  <div id="updateSection" class="container" style="display:none;">
+    <button id="updateBtn" style ="width:200px">SEND</button>
+  </div>
+
+    <div id="loading2Screen" class="container" style="display:none;">
+    <p>Download Firmware...<br>Please wait a moment.</p>
+    <div class="spinner">
+      <svg class="spinner-svg" viewBox="0 0 50 50">
+      <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+    </svg>
+    </div>
+  </div>
+
+  <!-- 완료 메시지 영역 -->
+  <div id="completeSection" class="container" style="display:none;">
+    <p>Update complete.</p>
+    <p>App quit soon !</p>
+  </div>
+  
+  <script type="module" src="../../src/renderer/Firmware.js"></script>
+</body>
+</html>

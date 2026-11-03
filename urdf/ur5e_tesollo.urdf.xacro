@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+==============================================================================
+Author: Kamil BENMADI
+Email: kamil.benmadi@sigma-clermont.fr
+GitHub: https://github.com/1000K-sudo
+LinkedIn: https://www.linkedin.com/in/kamilb-
+==============================================================================
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5e_tesollo">
+  <xacro:arg name="name" default="ur"/>
+  <xacro:arg name="ur_type" default="ur5e"/>
+  <xacro:arg name="tf_prefix" default=""/>
+
+  <!-- Official Universal Robots and Tesollo DG-5F Xacro Macros -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <xacro:include filename="$(find dg_description)/urdf/dg5f_macro.xacro"/>
+
+  <link name="world"/>
+
+  <!-- Universal Robots UR5e 6-DoF Robotic Arm -->
+  <xacro:ur_robot
+    name="$(arg name)"
+    tf_prefix="$(arg tf_prefix)"
+    parent="world"
+    joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
+    kinematics_parameters_file="$(find ur_description)/config/ur5e/default_kinematics.yaml"
+    physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
+    visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
+  >
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:ur_robot>
+
+  <!-- OnRobot HEX-E v2 6-Axis Force/Torque Sensor (Cylinder 35.5 mm height, 35 mm radius) -->
+  <link name="onrobot_hex_e_sensor">
+    <visual>
+      <origin xyz="0 0 0.01775" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0355" radius="0.035"/>
+      </geometry>
+      <material name="hex_e_dark_grey">
+        <color rgba="0.2 0.2 0.22 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01775" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0355" radius="0.035"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="tool0_to_hex_e" type="fixed">
+    <parent link="tool0"/>
+    <child link="onrobot_hex_e_sensor"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Tesollo DG-5F Dexterous Hand (Right, 20 DoF) -->
+  <xacro:dg5f_hand side="right" base_type="default" with_mount="true"/>
+
+  <!-- Mechanical Stack: F/T Sensor -> Tesollo Mounting Flange (Z = 70 mm, Yaw = +90 deg) -->
+  <joint name="hex_e_to_tesollo" type="fixed">
+    <parent link="onrobot_hex_e_sensor"/>
+    <child link="rl_dg_base_link"/>
+    <origin xyz="0 0 0.070" rpy="0 0 1.5708"/>
+  </joint>
+</robot>

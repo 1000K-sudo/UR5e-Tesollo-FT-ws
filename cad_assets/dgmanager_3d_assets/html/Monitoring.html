@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none';">
+	<title>Monitoring</title>
+	<link rel="stylesheet" href="theme.css" />
+	<link rel="stylesheet" href="Monitoring.css" />
+
+</head>
+
+<body>
+	<div class="tabs">
+		<button id="chart_position_button" class="active">Joint</button>
+		<button id="chart_current_button">Current</button>
+		<button id="chart_velocity_button">Velocity</button>
+		<button id="chart_temperature_button">Temperature</button>
+	</div>
+	<div style="overflow-y: scroll; height: calc(100vh - 30px); margin-top: 30px;">
+		<div id="custom-legend"></div>
+		<canvas id="Charts" height="300px"></canvas>
+		<div style="display: flex; padding: 10px 20px; align-items: center; gap: 4px;">
+			<label style="font-weight: 600;">Range : </label>
+			<input type="number" id="range" value="500" max=5000 min=1/>
+			<label style="font-size: 13px; font-weight: 600;">Steps Back → Now</label>
+		</div>
+		<div style="display: flex; padding: 10px 20px; align-items: center; gap: 4px; position: relative;">
+			<label style="font-weight: 600;">Min/Max : </label>
+			<input type="number" id="min" value="-150"/>
+			<label style="font-size: 13px; font-weight: 600;"> ~ </label>
+			<input type="number" id="max" value="150"/>
+			<label style="display: flex; position: absolute; right: 20px; align-items: center;"><input type="checkbox" id="legendCb" style="margin-right: 4px;">Legend</label>
+		</div>
+		<div>
+			<fieldset class='default-fieldset FINGER3 FINGER4 FINGER5 FINGER2 FINGER1'>
+				<legend class="highlight-finger">
+					<label for="checkbox_F1"><input id="checkbox_F1" class="All" name="F1" type="checkbox" finger-index="1"/> FINGER 1</label>
+				</legend>
+				<label class="highlight-joint" finger-index="1" joint-index="1">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="1" joint-index="2">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="1" joint-index="3">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint FINGER3 FINGER4 FINGER5" finger-index="1" joint-index="4">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+			</fieldset>
+			<fieldset class='default-fieldset FINGER3 FINGER4 FINGER5 FINGER2'>
+				<legend class="highlight-finger">
+					<label for="checkbox_F2"><input id="checkbox_F2" class="All" name="F2" type="checkbox" finger-index="2"/> FINGER 2</label>
+				</legend>
+				<label class="highlight-joint" finger-index="2" joint-index="1">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="2" joint-index="2">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="2" joint-index="3">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint FINGER3 FINGER4 FINGER5" finger-index="2" joint-index="4">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+			</fieldset>
+	
+			<fieldset class='default-fieldset FINGER3 FINGER4 FINGER5'>
+				<legend class="highlight-finger">
+					<label for="checkbox_F3"><input id="checkbox_F3" class="All" name="F3" type="checkbox" finger-index="3" /> FINGER 3</label>
+				</legend>
+				<label class="highlight-joint" finger-index="3" joint-index="1">
+					<input  type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="3" joint-index="2">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="3" joint-index="3">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="3" joint-index="4">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+			</fieldset>
+	
+			<fieldset class='default-fieldset FINGER4 FINGER5'>
+				<legend class="highlight-finger">
+					<label for="checkbox_F4"><input id="checkbox_F4" class="All" name="F4" type="checkbox" finger-index="4" /> FINGER 4</label>
+				</legend>
+				<label class="highlight-joint" finger-index="4" joint-index="1">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="4" joint-index="2">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint"finger-index="4" joint-index="3">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint" finger-index="4" joint-index="4">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+			</fieldset>
+	
+			<fieldset class='default-fieldset FINGER4 FINGER5'>
+				<legend class="highlight-finger">
+					<label for="checkbox_F5"><input id="checkbox_F5" class="All" name="F5" type="checkbox" finger-index="5" /> FINGER 5</label>
+				</legend>
+				<label class="highlight-joint" finger-index="5" joint-index="1">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<div class="FINGER4"></div>
+				<div class="FINGER4"></div>
+				<label class="highlight-joint" finger-index="5" joint-index="2">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint FINGER5" finger-index="5" joint-index="3">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+				<label class="highlight-joint FINGER5" finger-index="5" joint-index="4">
+					<input type="checkbox" unchecked  />
+					<label style="pointer-events: none;"></label>
+					<input type="color" disabled>
+				</label>
+			</fieldset>
+	
+		</div>
+		<!-- <div style="margin: 0px; padding: 0px; flex-grow:1;"></div>
+		<div margin="20px" padding="10px"></div> -->
+		<div class="label-btn-container">
+		<label class="button-description">Saves chart data as CSV</label>
+		<button id="saveCSV" class="icon-button">
+			<svg width="24" height="24"><use href="../images/icons.svg#icon-save"></use></svg>
+		</button>
+		<label class="button-description">Saves chart data as image</label>
+		<button id="saveIMG" class="icon-button">
+			<svg width="24" height="24"><use href="../images/icons.svg#icon-save"></use></svg>
+		</button>
+		</div>
+	</div>
+	<script type="module" src="../../src/renderer/Monitoring.js"></script>
+	<!-- <script type="module" src="../out/renderer.bundle.js"></script> -->
+</body>
+
+</html>

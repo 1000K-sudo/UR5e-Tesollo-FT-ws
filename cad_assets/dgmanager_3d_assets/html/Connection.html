@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect</title>
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="Connection.css" />
+</head>
+
+<body>
+    <div id="background"></div>
+    <div id="connection-progress">
+        <svg width="120" height="120" class="progress-ring">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color: #4caf50; stop-opacity: 1" />
+                    <stop offset="100%" style="stop-color: #e6e6e6; stop-opacity: 1" />
+                </linearGradient>
+            </defs>
+            <circle cx="60" cy="60" r="50" stroke="url(#gradient)" />
+        </svg>
+    </div>
+    
+    
+    <form>
+        <div class="tab-container">
+            <button class="internal tab" type="button">Operator Mode</button>
+            <button class="external tab" type="button">Developer Mode</button>
+        </div>
+        <div>
+            <label for="select-model" class="header">Model</label>
+            <select id="select-model" title="Select a model to connect from the list." aria-placeholder="Select a model" required>
+                <option value="" disabled selected></option>
+                <option value="24354">Delto Gripper-5F-RIGHT</option>
+                <option value="24338">Delto Gripper-5F-LEFT</option>
+                <option value="20226">Delto Gripper-4F-M</option>
+                <option value="16130">Delto Gripper-3F-M</option>
+                <option value="16129">Delto Gripper-3F-B</option>
+                <!-- <option value="12034">Delto Gripper-2F-M</option>
+                <option value="7938">Delto Gripper-1F-M</option> -->
+            </select>
+        </div>
+
+        <div style="display: none;" id="internal-radio" class="radio-group">
+            <label><input type="radio" name="modbus" value="1" checked /> Modbus RTU</label>
+            <label><input type="radio" name="modbus" value="0" /> Modbus TCP</label>
+        </div>
+
+        <div style="display: none;" id="internal-rtu-panel">
+            <label class="header">Serial Port</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <select id="internal-rtu-serialport" required>
+                    <option value="">Please search for the device.</option>
+                </select>
+                <button id="internal-rtu-scan" class="icon-button" type="button">
+                    <svg width="20" height="20">
+                        <use href="../images/icons.svg#icon-usb"></use>
+                    </svg>
+                </button>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: stretch;">
+                <div style="width: 50%;">
+                    <label class="header">Baudrate</label>
+                    <select id="internal-rtu-baudrate">
+                        <!-- <option value="9600">9,600</option> -->
+                        <!-- <option value="57600">57,600</option> -->
+                        <option value="115200" selected>115,200</option>
+                        <!-- <option value="1000000">1M</option> -->
+                    </select>
+                </div>
+                <div style="width: 50%;">
+                    <label class="header">Slave ID</label>
+                    <input type="number" title="Enter a Slave ID." id="internal-rtu-slaveId" placeholder="1" min="1"
+                        max="255" value="1" pattern="\d*" required />
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;" id="internal-tcp-panel">
+            <label for="ip" class="header">IP</label>
+            <input type="text" id="internal-tcp-ip" placeholder="169.254.186.72"
+                title="Enter a valid IPv4 address (e.g., 192.168.1.1)" value="192.168.0.161"
+                pattern="^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+                required />
+            <div style="display: flex; gap: 10px; align-items: stretch;">
+                <div style="width: 50%;">
+                    <label for="port" class="header">PORT</label>
+                    <input type="number" title="Enter a valid port." id="internal-tcp-port" placeholder="502" min="0"
+                        max="65535" value="10000" pattern="\d*" required />
+                </div>
+                <div style="width: 50%;">
+                    <label class="header">Slave ID</label>
+                    <input type="number" title="Enter a Slave ID." id="internal-tcp-slaveId" placeholder="1" min="1"
+                        max="255" value="1" pattern="\d*" required />
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none; margin-top: 32px;" id="external-tcp-panel">
+            <label for="ip" class="header">TCP/IP</label>
+            <input type="text" id="external-tcp-ip" placeholder="169.254.186.72"
+                title="Enter a valid IPv4 address (e.g., 192.168.1.1)" value="192.168.0.161"
+                pattern="^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+                required />
+
+            <label for="port" class="header">PORT</label>
+            <input type="number" title="Enter a valid port." id="external-tcp-port" placeholder="502" min="0"
+                max="65535" value="10000" pattern="\d*" required />
+        </div>
+        <label class="ip-warning">IP may differ by product, so please refer to the manual. </label>
+        <button type="submit">CONNECT</button>
+        <!-- <button type="button" id="load-firmware-btn" style="display: none;">Load firmare</button> -->
+    </form>
+    <br>
+
+    <script type="module" src="../../src/renderer/Connection.js"></script>
+</body>
+
+</html>

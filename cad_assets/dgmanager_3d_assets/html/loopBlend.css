@@ -1,0 +1,83 @@
+body {
+  /* font-family: 'Roboto', Arial, sans-serif; */
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #3bb54c, #5875b2);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+.container {
+  text-align: center;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #444;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 220px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  border-color: #3bb54c;
+  box-shadow: 0 0 5px rgba(59, 181, 76, 0.5);
+  outline: none;
+}
+
+button {
+  padding: 12px 25px;
+  margin: 5px;
+  border: none;
+  border-radius: 6px;
+  background: #3bb54c;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #2e8e3a;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+#status, #currentBlend {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #666;
+}
