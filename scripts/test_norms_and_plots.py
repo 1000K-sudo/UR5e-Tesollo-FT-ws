@@ -47,7 +47,7 @@ class TestNormCalculations(unittest.TestCase):
 
     def test_load_existing_legacy_csv(self):
         """Test loading real existing recorded CSV from workspace (legacy 16-col format)."""
-        csv_file = os.path.join(DATA_DIR, "OnRobot_force_20260922_144631.csv")
+        csv_file = os.path.join(DATA_DIR, "OnRobot_force_20260922_144631", "OnRobot_force_20260922_144631.csv")
         self.assertTrue(os.path.isfile(csv_file))
 
         data = plot_onrobot_ft.load_data(csv_file)
@@ -77,7 +77,7 @@ class TestNormCalculations(unittest.TestCase):
 
     def test_load_existing_legacy_npy(self):
         """Test loading real existing recorded NPY from workspace (legacy 15-col format)."""
-        npy_file = os.path.join(DATA_DIR, "OnRobot_force_20260922_144631.npy")
+        npy_file = os.path.join(DATA_DIR, "OnRobot_force_20260922_144631", "OnRobot_force_20260922_144631.npy")
         self.assertTrue(os.path.isfile(npy_file))
 
         data = plot_onrobot_ft.load_data(npy_file)
@@ -175,7 +175,7 @@ class TestNormCalculations(unittest.TestCase):
     def test_plot_cli_execution(self):
         """Test executing plot_onrobot_ft.py CLI with various flags."""
         script = os.path.join(SCRIPT_DIR, "plot_onrobot_ft.py")
-        csv_file = os.path.join(DATA_DIR, "OnRobot_force_20260922_144631.csv")
+        csv_file = os.path.join(DATA_DIR, "OnRobot_force_20260922_144631", "OnRobot_force_20260922_144631.csv")
 
         with tempfile.TemporaryDirectory() as tmpdir:
             out_png = os.path.join(tmpdir, "test_out.png")

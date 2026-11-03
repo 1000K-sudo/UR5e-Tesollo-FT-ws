@@ -431,7 +431,8 @@ def main():
         if "recorded_samples" in locals() and recorded_samples and args.format != "none":
             timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
             base_name = f"{args.prefix}_{timestamp_str}"
-            os.makedirs(args.output_dir, exist_ok=True)
+            session_dir = os.path.join(args.output_dir, base_name)
+            os.makedirs(session_dir, exist_ok=True)
 
             formats_to_save = ["csv", "txt", "npy"] if args.format == "all" else [args.format]
 
@@ -452,7 +453,7 @@ def main():
             )
 
             for fmt in formats_to_save:
-                file_path = os.path.join(args.output_dir, f"{base_name}.{fmt}")
+                file_path = os.path.join(session_dir, f"{base_name}.{fmt}")
                 if fmt == "csv":
                     with open(file_path, "w", newline="", encoding="utf-8") as fp:
                         writer = csv.writer(fp)

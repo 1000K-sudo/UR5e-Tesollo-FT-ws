@@ -120,7 +120,15 @@ ur5e_tesollo_ws/
 │   ├── xela_uskin_cad/                    ← 3D CAD STEP (.stp) & STL models for DG-5F uSkin palm, phalanges & patches
 │   └── dgmanager_3d_assets/               ← Standalone 3D visual/collision meshes & URDFs for all Delto grippers
 ├── data/
-│   └── onrobot_ft_recordings/             ← 10 experimental F/T sessions recorded at 100 Hz (.csv, .npy, .txt)
+│   └── onrobot_ft_recordings/             ← 10 experimental F/T sessions organized in dedicated subfolders
+│       ├── README.md                      ← Complete session index table & visual gallery
+│       └── OnRobot_force_<YYYYMMDD_HHMMSS>/
+│           ├── OnRobot_force_<...>.csv    ← 20-column CSV time series (tared & raw + norms)
+│           ├── OnRobot_force_<...>.npy    ← Binary float64 NumPy matrix
+│           ├── OnRobot_force_<...>.txt    ← Tab-separated text log
+│           ├── OnRobot_force_<...>_3axes.png ← Triaxial Force/Torque + Norm curves
+│           ├── OnRobot_force_<...>_norme.png ← Euclidean Force/Torque Norm curves
+│           └── OnRobot_force_<...>.png    ← Combined overview plot
 └── src/                                   ← ROS 2 Packages & 3D Description Packages
     ├── delto_m_ros2/                      ← Complete Tesollo ROS 2 suite
     │   ├── dg_description/                ← 3D visual (.dae) & collision (.stl) meshes (DG-3F, DG-4F, DG-5F L/R)
@@ -234,15 +242,30 @@ Communicates directly with the OnRobot HEX-E v2 slave using `pysoem`:
   $$\|\mathbf{F}\| = \sqrt{F_x^2 + F_y^2 + F_z^2} \quad (\text{N}), \qquad \|\mathbf{T}\| = \sqrt{T_x^2 + T_y^2 + T_z^2} \quad (\text{N}\cdot\text{m})$$
 - Exports timestamped `.csv`, `.txt`, and `.npy` datasets into [`data/onrobot_ft_recordings/`](data/onrobot_ft_recordings/).
 
-### Experimental Force/Torque Plots (`docs/figures/`)
+### Experimental Force/Torque Sessions (`data/onrobot_ft_recordings/`)
+
+All 10 experimental acquisition sessions are organized into dedicated subfolders under **[`data/onrobot_ft_recordings/`](data/onrobot_ft_recordings/)**, each grouping its `.csv`, `.npy`, and `.txt` data files alongside its generated `_3axes.png`, `_norme.png`, and `.png` curves (see **[data/onrobot_ft_recordings/README.md](data/onrobot_ft_recordings/README.md)** for the full gallery):
+
+| Session Folder | Samples | Duration | Peak Force $\|\mathbf{F}\|_{\max}$ | Peak Torque $\|\mathbf{T}\|_{\max}$ | Curves |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **[`OnRobot_force_20260921_140955/`](data/onrobot_ft_recordings/OnRobot_force_20260921_140955/)** | `8,944` | `94.00 s` | `45.32 N` | `0.852 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260921_140955/OnRobot_force_20260921_140955_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260921_140955/OnRobot_force_20260921_140955_norme.png) |
+| **[`OnRobot_force_20260921_180517/`](data/onrobot_ft_recordings/OnRobot_force_20260921_180517/)** | `24,714` | `259.62 s` | `6.14 N` | `0.402 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260921_180517/OnRobot_force_20260921_180517_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260921_180517/OnRobot_force_20260921_180517_norme.png) |
+| **[`OnRobot_force_20260921_181159/`](data/onrobot_ft_recordings/OnRobot_force_20260921_181159/)** | `1,952` | `20.51 s` | `5.65 N` | `0.453 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260921_181159/OnRobot_force_20260921_181159_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260921_181159/OnRobot_force_20260921_181159_norme.png) |
+| **[`OnRobot_force_20260922_115607/`](data/onrobot_ft_recordings/OnRobot_force_20260922_115607/)** | `1,708` | `17.90 s` | `15.79 N` | `0.341 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_115607/OnRobot_force_20260922_115607_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_115607/OnRobot_force_20260922_115607_norme.png) |
+| **[`OnRobot_force_20260922_133715/`](data/onrobot_ft_recordings/OnRobot_force_20260922_133715/)** | `5,757` | `60.52 s` | `6.14 N` | `0.733 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_133715/OnRobot_force_20260922_133715_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_133715/OnRobot_force_20260922_133715_norme.png) |
+| **[`OnRobot_force_20260922_141008/`](data/onrobot_ft_recordings/OnRobot_force_20260922_141008/)** | `2,035` | `21.36 s` | `7.11 N` | `0.941 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_141008/OnRobot_force_20260922_141008_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_141008/OnRobot_force_20260922_141008_norme.png) |
+| **[`OnRobot_force_20260922_141532/`](data/onrobot_ft_recordings/OnRobot_force_20260922_141532/)** | `3,785` | `39.77 s` | `9.62 N` | `0.961 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_141532/OnRobot_force_20260922_141532_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_141532/OnRobot_force_20260922_141532_norme.png) |
+| **[`OnRobot_force_20260922_143515/`](data/onrobot_ft_recordings/OnRobot_force_20260922_143515/)** | `1,580` | `16.63 s` | `8.55 N` | `1.147 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_143515/OnRobot_force_20260922_143515_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_143515/OnRobot_force_20260922_143515_norme.png) |
+| **[`OnRobot_force_20260922_143902/`](data/onrobot_ft_recordings/OnRobot_force_20260922_143902/)** | `21,089` | `221.40 s` | `14.12 N` | `1.442 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_143902/OnRobot_force_20260922_143902_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_143902/OnRobot_force_20260922_143902_norme.png) |
+| **[`OnRobot_force_20260922_144631/`](data/onrobot_ft_recordings/OnRobot_force_20260922_144631/)** | `3,447` | `36.17 s` | `8.70 N` | `1.144 N·m` | [3-Axes](data/onrobot_ft_recordings/OnRobot_force_20260922_144631/OnRobot_force_20260922_144631_3axes.png) · [Norms](data/onrobot_ft_recordings/OnRobot_force_20260922_144631/OnRobot_force_20260922_144631_norme.png) |
 
 #### 1. Triaxial Force & Torque Profiles + Euclidean Norms (`OnRobot_force_20260922_144631`)
-![Triaxial and Norm Profile](docs/figures/OnRobot_force_20260922_144631_3axes.png)
+![Triaxial and Norm Profile](data/onrobot_ft_recordings/OnRobot_force_20260922_144631/OnRobot_force_20260922_144631_3axes.png)
 
 #### 2. Total Contact Force $\|\mathbf{F}\|$ and Torque $\|\mathbf{T}\|$ Norms (`OnRobot_force_20260922_144631_norme`)
-![Euclidean Norms Profile](docs/figures/OnRobot_force_20260922_144631_norme.png)
+![Euclidean Norms Profile](data/onrobot_ft_recordings/OnRobot_force_20260922_144631/OnRobot_force_20260922_144631_norme.png)
 
-#### 3. Manipulation & External Contact Characterization
+#### 3. Manipulation & External Contact Characterization (`docs/figures/`)
 | Sensor Effort Response | Manipulation Sequence 1 | Manipulation Sequence 2 |
 | :---: | :---: | :---: |
 | ![Sensor Efforts](docs/figures/Figure_capteur_efforts.png) | ![Manipulation Doll 1](docs/figures/Figure_capteur_manip_doll.png) | ![Manipulation Doll 2](docs/figures/Figure_capteur_manip_doll2.png) |

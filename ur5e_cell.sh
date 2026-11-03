@@ -133,8 +133,8 @@ cmd_status() {
     echo -e "  Tesollo DG-5F IP   : ${TESOLLO_IP}:502"
     echo -e "  EtherCAT Interface : ${ETHERCAT_IFACE}"
     echo -e "  DGSDK Library      : $([ -f /usr/local/lib/libDGSDK.so ] && echo 'Installed (/usr/local/lib/libDGSDK.so)' || echo 'Local (sdk_tools/DGSDK/libDGSDK.so)')"
-    echo -e "  Recorded Datasets  : $(ls -1 "${SCRIPT_DIR}/data/onrobot_ft_recordings/"*.csv 2>/dev/null | wc -l) CSV sessions"
-    echo -e "  Generated Figures  : $(ls -1 "${SCRIPT_DIR}/docs/figures/"*.png 2>/dev/null | wc -l) PNG figures"
+    echo -e "  Recorded Datasets  : $(find "${SCRIPT_DIR}/data/onrobot_ft_recordings" -name '*.csv' 2>/dev/null | wc -l) CSV sessions (in dedicated subfolders)"
+    echo -e "  Generated Figures  : $(find "${SCRIPT_DIR}/data/onrobot_ft_recordings" "${SCRIPT_DIR}/docs/figures" -name '*.png' 2>/dev/null | wc -l) PNG figures"
 }
 
 cmd_help() {

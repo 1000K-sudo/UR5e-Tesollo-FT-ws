@@ -56,14 +56,14 @@ import matplotlib.pyplot as plt
 
 
 def find_latest_file(search_dir, extensions=(".csv", ".npy", ".txt")):
-    """Recherche le fichier d'acquisition le plus récent dans le dossier."""
+    """Recherche le fichier d'acquisition le plus récent dans le dossier ou ses sous-dossiers de session."""
     files = []
     for ext in extensions:
-        pattern = os.path.join(search_dir, f"OnRobot_force_*{ext}")
-        files.extend(glob.glob(pattern))
+        pattern = os.path.join(search_dir, "**", f"OnRobot_force_*{ext}")
+        files.extend(glob.glob(pattern, recursive=True))
     if not files:
         for ext in extensions:
-            files.extend(glob.glob(os.path.join(search_dir, f"*{ext}")))
+            files.extend(glob.glob(os.path.join(search_dir, "**", f"*{ext}"), recursive=True))
     if not files:
         return None
     files.sort(key=os.path.getmtime, reverse=True)
